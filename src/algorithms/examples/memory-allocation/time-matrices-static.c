@@ -6,7 +6,7 @@ int main() {
     int m[rows_size][columns_size];
     for (int i = 0; i < rows_size; i++) {
         for (int j = 0; j < columns_size; j++) {
-            m[i][j] = 100;
+            m[i][j] = (i + j) % 2;
         }
     }
 }
