@@ -1,3 +1,6 @@
+# ifndef FLOAT_VECTOR
+
+# define FLOAT_VECTOR
 
 typedef struct float_vector FloatVector;
 
@@ -18,3 +21,5 @@ void append(FloatVector *floatVector, float value);
 void set(const FloatVector *floatVector, int index, float value);
 
 void print(const FloatVector *floatVector);
+
+# endif
