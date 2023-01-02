@@ -2,23 +2,22 @@ SRC = ./src
 BIN = ./bin
 INCLUDE = ./include
 MODULES = ./modules
-OUT = ./out
-APP = app.c
-BINAPP = app.x
+OBJ = ./obj
+APP = ./apps
 
-all: library run
+all: library myapps run clean
 
 library: \
-	app.x
+	float_vector.o
 
 myapps:
-	echo "Defined app"
+	gcc $(APP)/tad/app.c $(OBJ)/*.o -I $(INCLUDE) -o $(BIN)/app.x
 
-%.x: $(SRC)/%.c $(INCLUDE)/%.h
-	gcc $< -I $(INCLUDE) ${MODULES}/Unity/unity.c -o $(BIN)/$@
+%.o: $(SRC)/algorithms/examples/tad/%.c $(INCLUDE)/%.h
+	gcc -c $< -I $(INCLUDE) -o $(OBJ)/$@
 
 run:
-	${BIN}/${BINAPP}
+	$(BIN)/app.x
 
 clean:
-	rm -rf ${BIN}/*
+	rm -rf $(BIN)/* $(OBJ)/*
