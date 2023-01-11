@@ -13,24 +13,35 @@ LIBS = -lm -ldatastructurec -L $(LIB)
 
 all: library myapps
 
-$(OBJ)/%.o: $(SRC)/algorithms/examples/tad/%.c $(INCLUDE)/%.h
-	gcc $(FLAGS) -c $< -I $(INCLUDE) -o $@
+$(OBJ)/%.o: $(SRC)/datastructures/list/%.c $(INCLUDE)/list/%.h
+	gcc $(FLAGS) -c $< -I $(INCLUDE) -o $(OBJ)/libdatastructurec.o
 
 $(BIN)/%.x: $(APP)/tad/%.c
 	gcc $(FLAGS) $< $(LIBS) -I $(INCLUDE) -o $@
 
+$(BIN)/%.x: $(TEST_DIR)/datastructures/list/test_linked_list.c
+	gcc $(FLAGS) $< $(LIBS) -I $(INCLUDE) $(MODULES)/Unity/unity.c -o $@
+
 library: \
 	$(OBJ)/*.o
-	ar -rcs $(LIB)/libdatastructurec.a $(OBJ)/*.o
+	ar -rcs $(LIB)/libdatastructurec.a $(OBJ)/libdatastructurec.o
 
 myapps: clean_apps \
 	$(BIN)/app.x
+
+mytest: clean_apps \
+	$(BIN)/test_app.x
 
 clean_apps:
 	rm -rf $(BIN)/*
 
 run:
 	$(BIN)/app.x
+
+test: library mytest run_test
+
+run_test:
+	$(BIN)/test_app.x
 
 clean:
 	rm -rf $(BIN)/* $(OBJ)/* $(LIB)/*

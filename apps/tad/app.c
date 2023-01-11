@@ -1,9 +1,11 @@
-#include "float_vector.h"
+# include <stdio.h>
+# include "../../include/list/linked_list.h"
 
 int main() {
-    FloatVector *floatVector = create(10);
-    append(floatVector, 10.0);
-    print(floatVector);
-    clear(&floatVector);
+    LinkedList *list = linked_list_create(sizeof(int));
+    linked_list_push(list, (int *) 1);
+    linked_list_push(list, (int *) 1);
+    linked_list_push(list, (int *) 1);
+    printf("%d", linked_list_length(list));
     return 0;
 }
