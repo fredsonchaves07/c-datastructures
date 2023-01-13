@@ -5,6 +5,7 @@
 #include "../../../include/list/linked_list.h"
 
 typedef struct _node {
+    int index;
     void *element;
     struct _node *next_node;
 } Node;
@@ -19,12 +20,13 @@ Node *_create_node(size_t size, void *element) {
     Node *node = calloc(1, sizeof(Node));
     node->next_node = NULL;
     node->element = calloc(1, size);
-//    memcpy(node->element, element, size);
+    memccpy(node->element, element, size, sizeof(element));
     return node;
 }
 
 void _add_head_node(LinkedList *list, Node *node) {
     list->head = node;
+    node->index = 0;
 }
 
 void _add_tail_node(LinkedList *list, Node *node) {
@@ -33,6 +35,7 @@ void _add_tail_node(LinkedList *list, Node *node) {
         current_node = current_node->next_node;
     }
     current_node->next_node = node;
+    current_node->index = linked_list_length(list);
 }
 
 LinkedList *linked_list_create(size_t data_size) {
@@ -52,10 +55,20 @@ void linked_list_push(LinkedList *list, void *element) {
     list->count ++;
 }
 
-bool linked_list_is_empty(LinkedList *list) {
+void *linked_list_get_element(const LinkedList *list) {
+    return list->head->element;
+}
+
+bool linked_list_is_empty(const LinkedList *list) {
     return list->head == NULL;
 }
 
-int linked_list_length(LinkedList *list) {
+int linked_list_length(const LinkedList *list) {
     return list->count;
 }
+
+//char linked_list_tostring(const LinkedList *list) {
+//    char elements[100];
+//
+//    if
+//}
