@@ -19,8 +19,8 @@ struct _linked_list {
 Node *_create_node(size_t size, void *element) {
     Node *node = calloc(1, sizeof(Node));
     node->next_node = NULL;
-    node->element = calloc(1, size);
-    memccpy(node->element, element, size, sizeof(element));
+    node->element = malloc(size * sizeof(element));
+    node->element = element;
     return node;
 }
 
@@ -67,8 +67,19 @@ int linked_list_length(const LinkedList *list) {
     return list->count;
 }
 
-//char linked_list_tostring(const LinkedList *list) {
-//    char elements[100];
-//
-//    if
-//}
+char *linked_list_to_string(const LinkedList *list) {
+    if (linked_list_is_empty(list)) {
+        return "[]";
+    }
+    char *linked_list_data = calloc(1, list->data_size * sizeof(char *));
+    strcat(linked_list_data, "[");
+    Node *current_node = list->head;
+    while (current_node != NULL) {
+        strcat(linked_list_data, (char *) current_node->element);
+        if (current_node->next_node != NULL) {
+            strcat(linked_list_data, ", ");
+        }
+        current_node = current_node->next_node;
+    }
+    return strcat(linked_list_data, "]");
+}

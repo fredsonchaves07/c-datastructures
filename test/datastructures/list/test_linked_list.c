@@ -8,11 +8,20 @@ void setUp() {}
 void tearDown(){}
 
 void test_create_linked_list() {
-    LinkedList *list = linked_list_create(sizeof(char));
+    LinkedList *list = linked_list_create(sizeof(char *));
     linked_list_push(list, (char *) "Java");
     linked_list_push(list, (char *) "Python");
     linked_list_push(list, (char *) "Javascript");
     TEST_ASSERT_EQUAL(3, linked_list_length(list));
+}
+
+void test_get_string_linked_list() {
+    LinkedList *list = linked_list_create(sizeof(char *));
+    linked_list_push(list, (char *) "Java");
+    linked_list_push(list, (char *) "Python");
+    linked_list_push(list, (char *) "Javascript");
+    TEST_ASSERT_NOT_EQUAL("[]", linked_list_to_string(list));
+    printf("%s\n\n", linked_list_to_string(list));
 }
 
 
@@ -21,7 +30,7 @@ void test_insert_element_index() {
 }
 
 void test_get_element() {
-    LinkedList *list = linked_list_create(sizeof(char));
+    LinkedList *list = linked_list_create(sizeof(char *));
     linked_list_push(list, (char *) "Java");
     linked_list_push(list, (char *) "Python");
     linked_list_push(list, (char *) "Javascript");
@@ -30,6 +39,7 @@ void test_get_element() {
 
 void run_tests() {
     RUN_TEST(test_create_linked_list);
+    RUN_TEST(test_get_string_linked_list);
 }
 
 int main(void) {

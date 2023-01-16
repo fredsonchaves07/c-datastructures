@@ -16,6 +16,6 @@ bool linked_list_is_empty(const LinkedList *list);
 
 int linked_list_length(const LinkedList *list);
 
-char linked_list_tostring(const LinkedList *list);
+char *linked_list_to_string(const LinkedList *list);
 
 # endif
