@@ -10,6 +10,8 @@ LinkedList *linked_list_create(size_t data_size);
 
 void linked_list_push(LinkedList *list, void *element);
 
+void linked_list_push_index(LinkedList *list, void *element, int index);
+
 void *linked_list_get_element(const LinkedList *list);
 
 bool linked_list_is_empty(const LinkedList *list);
