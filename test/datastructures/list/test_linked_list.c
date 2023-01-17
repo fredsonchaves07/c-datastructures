@@ -1,4 +1,5 @@
 # include <stdlib.h>
+# include <string.h>
 
 # include "../../../modules/Unity/unity.h"
 # include "../../../include/list/linked_list.h"
@@ -17,11 +18,12 @@ void test_create_linked_list() {
 
 void test_get_string_linked_list() {
     LinkedList *list = linked_list_create(sizeof(char *));
+    char expected[100] = {"[Java, Python, Javascript]"};
     linked_list_push(list, (char *) "Java");
     linked_list_push(list, (char *) "Python");
     linked_list_push(list, (char *) "Javascript");
-    TEST_ASSERT_NOT_EQUAL("[]", linked_list_to_string(list));
-    printf("%s\n\n", linked_list_to_string(list));
+    printf("%s\n", linked_list_to_string(list));
+    TEST_ASSERT_EQUAL_STRING(expected, linked_list_to_string(list));
 }
 
 
@@ -34,7 +36,7 @@ void test_get_element() {
     linked_list_push(list, (char *) "Java");
     linked_list_push(list, (char *) "Python");
     linked_list_push(list, (char *) "Javascript");
-    printf("%s\n\n\n", (char *) linked_list_get_element(list));
+    printf("%s\n", (char *) linked_list_get_element(list));
 }
 
 void run_tests() {
