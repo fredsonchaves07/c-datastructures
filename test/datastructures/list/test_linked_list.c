@@ -39,15 +39,52 @@ void test_get_string_linked_list() {
     TEST_ASSERT_EQUAL_STRING(expected, linked_list_to_string(list));
 }
 
+void test_should_create_list_empty() {
+    LinkedList *list = linked_list_create(sizeof(char *));
+    TEST_ASSERT_TRUE(linked_list_is_empty(list));
+}
+
 void test_get_element() {
     LinkedList *list = create_list();
-    printf("%s\n", (char *) linked_list_get_element(list));
+    TEST_ASSERT_NOT_NULL(linked_list_get_element(list, (char *) "Python"));
+    TEST_ASSERT_EQUAL("Python", linked_list_get_element(list, (char *) "Python"));
+}
+
+void test_get_null_if_element_not_exist() {
+    LinkedList *list = create_list();
+    TEST_ASSERT_NULL(linked_list_get_element(list, (char * ) "Delphi"));
+}
+
+void test_should_remove_element() {
+    LinkedList *list = create_list();
+    linked_list_remove(list, (char *) "Python");
+    TEST_ASSERT_EQUAL(2, linked_list_length(list));
+    TEST_ASSERT_NULL(linked_list_get_element(list, (char * ) "Python"));
+}
+
+void test_not_should_remove_element_if_element_is_not_exist() {
+    LinkedList *list = create_list();
+    linked_list_remove(list, (char *) "Delphi");
+    TEST_ASSERT_EQUAL(3, linked_list_length(list));
+}
+
+void test_should_remove_element_at_index() {
+    LinkedList *list = create_list();
+    linked_list_remove_index(list, 1);
+    TEST_ASSERT_EQUAL(2, linked_list_length(list));
+    TEST_ASSERT_NULL(linked_list_get_element(list, (char * ) "Javascript"));
 }
 
 void run_tests() {
     RUN_TEST(test_create_linked_list);
     RUN_TEST(test_get_string_linked_list);
     RUN_TEST(test_insert_element_index);
+    RUN_TEST(test_should_create_list_empty);
+    RUN_TEST(test_get_element);
+    RUN_TEST(test_get_null_if_element_not_exist);
+    RUN_TEST(test_should_remove_element);
+    RUN_TEST(test_not_should_remove_element_if_element_is_not_exist);
+    RUN_TEST(test_should_remove_element_at_index);
 }
 
 int main(void) {

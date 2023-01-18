@@ -48,7 +48,7 @@ void _add_element_last_node(LinkedList *list, void *element) {
     list->count ++;
 }
 
-Node *_get_before_node(LinkedList *list, Node *node) {
+Node *_get_before_node(const LinkedList *list, Node *node) {
     Node *current_node = list->head;
     while (current_node->next_node != NULL) {
         if (current_node->next_node == node) return current_node;
@@ -96,8 +96,64 @@ void linked_list_push_index(LinkedList *list, void *element, int index) {
     }
 }
 
-void *linked_list_get_element(const LinkedList *list) {
-    return list->head->element;
+void *linked_list_get_element(const LinkedList *list, void *element) {
+    Node *current_node = list->head;
+    while (current_node != NULL) {
+        if (current_node->element == element) return element;
+        current_node = current_node->next_node;
+    }
+    return NULL;
+}
+
+void linked_list_remove(LinkedList *list, void *element) {
+    Node *current_node = list->head;
+    while (current_node != NULL) {
+        if (current_node->element == element) {
+            Node *before_node = _get_before_node(list, current_node);
+            *before_node = *current_node->next_node;
+            current_node->next_node = NULL;
+            current_node->element = NULL;
+            current_node = NULL;
+            list->count --;
+            break;
+        }
+        current_node = current_node->next_node;
+    }
+}
+
+
+void _remove_element_first_node(LinkedList *list) {
+    linked_list_remove(list, list->head->element);
+}
+
+void _remove_element_last_node(LinkedList *list) {
+    Node *current_node = list->head;
+    while (current_node->next_node != NULL) {
+        current_node = current_node->next_node;
+    }
+    linked_list_remove(list, current_node->element);
+}
+
+void _remove_element_index_node(LinkedList *list, int index) {
+    Node *current_node = list->head;
+    int cont_index = 0;
+    while (current_node != NULL) {
+        if (cont_index == index) {
+            linked_list_remove(list, current_node->element);
+        }
+        current_node = current_node->next_node;
+        cont_index ++;
+    }
+}
+
+void linked_list_remove_index(LinkedList *list, int index) {
+    if (index == 0) {
+        _remove_element_first_node(list);
+    } else if (index == linked_list_length(list) - 1) {
+        _remove_element_last_node(list);
+    } else {
+        _remove_element_index_node(list, index);
+    }
 }
 
 bool linked_list_is_empty(const LinkedList *list) {
