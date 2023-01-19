@@ -72,7 +72,7 @@ void test_should_remove_element_at_index() {
     LinkedList *list = create_list();
     linked_list_remove_index(list, 1);
     TEST_ASSERT_EQUAL(2, linked_list_length(list));
-    TEST_ASSERT_NULL(linked_list_get_element(list, (char * ) "Javascript"));
+    TEST_ASSERT_NULL(linked_list_get_element(list, (char * ) "Python"));
 }
 
 void run_tests() {
