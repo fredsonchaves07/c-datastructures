@@ -30,6 +30,7 @@ void test_insert_element_index() {
     linked_list_push_index(list, (char *) "C++", 3);
     TEST_ASSERT_EQUAL(4, linked_list_length(list));
     TEST_ASSERT_EQUAL_STRING(expected, linked_list_to_string(list));
+    linked_list_free(list);
 }
 
 void test_get_string_linked_list() {
@@ -37,22 +38,26 @@ void test_get_string_linked_list() {
     LinkedList *list = create_list();
     printf("%s\n", linked_list_to_string(list));
     TEST_ASSERT_EQUAL_STRING(expected, linked_list_to_string(list));
+    linked_list_free(list);
 }
 
 void test_should_create_list_empty() {
     LinkedList *list = linked_list_create(sizeof(char *));
     TEST_ASSERT_TRUE(linked_list_is_empty(list));
+    linked_list_free(list);
 }
 
 void test_get_element() {
     LinkedList *list = create_list();
     TEST_ASSERT_NOT_NULL(linked_list_get_element(list, (char *) "Python"));
     TEST_ASSERT_EQUAL("Python", linked_list_get_element(list, (char *) "Python"));
+    linked_list_free(list);
 }
 
 void test_get_null_if_element_not_exist() {
     LinkedList *list = create_list();
     TEST_ASSERT_NULL(linked_list_get_element(list, (char * ) "Delphi"));
+    linked_list_free(list);
 }
 
 void test_should_remove_element() {
@@ -60,12 +65,14 @@ void test_should_remove_element() {
     linked_list_remove(list, (char *) "Python");
     TEST_ASSERT_EQUAL(2, linked_list_length(list));
     TEST_ASSERT_NULL(linked_list_get_element(list, (char * ) "Python"));
+    linked_list_free(list);
 }
 
 void test_not_should_remove_element_if_element_is_not_exist() {
     LinkedList *list = create_list();
     linked_list_remove(list, (char *) "Delphi");
     TEST_ASSERT_EQUAL(3, linked_list_length(list));
+    linked_list_free(list);
 }
 
 void test_should_remove_element_at_index() {
@@ -73,6 +80,33 @@ void test_should_remove_element_at_index() {
     linked_list_remove_index(list, 1);
     TEST_ASSERT_EQUAL(2, linked_list_length(list));
     TEST_ASSERT_NULL(linked_list_get_element(list, (char * ) "Python"));
+    linked_list_free(list);
+}
+
+void test_should_get_index_element() {
+    LinkedList *list = create_list();
+    TEST_ASSERT_EQUAL(1, linked_list_index_of(list, (char * ) "Python"));
+    linked_list_free(list);
+}
+
+void test_should_get_element_by_element() {
+    LinkedList *list = create_list();
+    TEST_ASSERT_EQUAL("Python", linked_list_get_element(list, (char * ) "Python"));
+    linked_list_free(list);
+}
+
+void test_should_get_element_by_index() {
+    LinkedList *list = create_list();
+    TEST_ASSERT_EQUAL("Python", linked_list_get_element_index(list, 1));
+    linked_list_free(list);
+}
+
+void test_should_clear_list() {
+    LinkedList *list = create_list();
+    linked_list_clear(list);
+    TEST_ASSERT_EQUAL(0, linked_list_length(list));
+    TEST_ASSERT_TRUE(linked_list_is_empty(list));
+    linked_list_free(list);
 }
 
 void run_tests() {
@@ -85,6 +119,10 @@ void run_tests() {
     RUN_TEST(test_should_remove_element);
     RUN_TEST(test_not_should_remove_element_if_element_is_not_exist);
     RUN_TEST(test_should_remove_element_at_index);
+    RUN_TEST(test_should_get_index_element);
+    RUN_TEST(test_should_get_element_by_element);
+    RUN_TEST(test_should_get_element_by_index);
+    RUN_TEST(test_should_clear_list);
 }
 
 int main(void) {

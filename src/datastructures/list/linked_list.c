@@ -96,11 +96,41 @@ void linked_list_push_index(LinkedList *list, void *element, int index) {
     }
 }
 
+int linked_list_index_of(const LinkedList *list, void *element) {
+    Node *current_node = list->head;
+    int index = 0;
+    while (current_node != NULL) {
+        if (current_node->element == element) {
+            return index;
+        }
+        current_node = current_node->next_node;
+        index ++;
+    }
+    return -1;
+}
+
 void *linked_list_get_element(const LinkedList *list, void *element) {
     Node *current_node = list->head;
     while (current_node != NULL) {
         if (current_node->element == element) return element;
         current_node = current_node->next_node;
+    }
+    return NULL;
+}
+
+void *_get_element_first_node(const LinkedList *list) {
+    return list->head->element;
+}
+
+void *linked_list_get_element_index(const LinkedList *list, int index) {
+    Node *current_node = list->head;
+    int cont_index = 0;
+    while (current_node != NULL) {
+        if (index == cont_index) {
+            return current_node->element;
+        }
+        current_node = current_node->next_node;
+        cont_index ++;
     }
     return NULL;
 }
@@ -196,4 +226,27 @@ char *linked_list_to_string(const LinkedList *list) {
         current_node = current_node->next_node;
     }
     return strcat(linked_list_data, "]");
+}
+
+void _free_node(Node *node) {
+    free(node);
+}
+
+void linked_list_clear(LinkedList *list) {
+    Node *current_node = list->head;
+    while (current_node != NULL) {
+        Node *next_node = current_node->next_node;
+        current_node->element = NULL;
+        _free_node(current_node);
+        current_node = next_node;
+    }
+    list->head = NULL;
+    list->data_size = 0;
+    list->count = 0;
+}
+
+void linked_list_free(LinkedList *list) {
+    linked_list_clear(list);
+    free(list);
+    list = NULL;
 }
