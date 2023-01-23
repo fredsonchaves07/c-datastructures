@@ -16,7 +16,7 @@ all: library myapps
 $(OBJ)/%.o: $(SRC)/datastructures/list/%.c $(INCLUDE)/list/%.h
 	gcc $(FLAGS) -c $< -I $(INCLUDE) -o $(OBJ)/libdatastructurec.o
 
-$(BIN)/%.x: $(APP)/tad/%.c
+$(BIN)/%.x: $(APP)/%.c
 	gcc $(FLAGS) $< $(LIBS) -I $(INCLUDE) -o $@
 
 $(BIN)/%.x: $(TEST_DIR)/datastructures/list/test_linked_list.c
@@ -27,7 +27,7 @@ library: \
 	ar -rcs $(LIB)/libdatastructurec.a $(OBJ)/libdatastructurec.o
 
 myapps: clean_apps \
-	$(BIN)/app.x
+	$(BIN)/perfomance_linked_list.x
 
 mytest: clean_apps \
 	$(BIN)/test_app.x
