@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include <stdbool.h>
 #include "../../../include/list/linked_list.h"
 
