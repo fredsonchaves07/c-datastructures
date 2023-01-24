@@ -6,7 +6,7 @@ int main() {
     double time_spent = 0.0;
     LinkedList *list = linked_list_create(sizeof(int *));
     clock_t begin = clock();
-    for (int i = 0; i < 200000; i ++) {
+    for (int i = 0; i < 20000000; i ++) {
         int *index = (int *) i;
         linked_list_push(list, (int *) index);
     }

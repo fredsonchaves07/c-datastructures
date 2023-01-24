@@ -10,6 +10,7 @@ typedef struct _node {
 
 struct _linked_list {
     Node *head;
+    Node *tail;
     size_t count;
     size_t data_size;
 };
@@ -17,6 +18,7 @@ struct _linked_list {
 LinkedList *linked_list_create(size_t data_size) {
     LinkedList *linkedList = calloc(1, sizeof(LinkedList));
     linkedList->head = NULL;
+    linkedList->tail = NULL;
     linkedList->data_size = data_size;
     return linkedList;
 }
@@ -34,16 +36,17 @@ void _add_element_first_node(LinkedList *list, void *element) {
     Node *current_node = list->head;
     node->next_node = current_node;
     list->head = node;
+    if (list->tail == NULL) {
+        list->tail = node;
+    }
     list->count ++;
 }
 
 void _add_element_last_node(LinkedList *list, void *element) {
     Node *node = _create_node(list->data_size, element);
-    Node *current_node = list->head;
-    while (current_node->next_node != NULL) {
-        current_node = current_node->next_node;
-    }
+    Node *current_node = list->tail;
     current_node->next_node = node;
+    list->tail = node;
     list->count ++;
 }
 
