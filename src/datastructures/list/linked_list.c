@@ -138,54 +138,60 @@ void *linked_list_get_element_index(const LinkedList *list, int index) {
 }
 
 void _remove_element_first_node(LinkedList *list) {
-    Node *current_node = list->head;
+    Node *head_node = list->head;
     list->head = list->head->next_node;
-    current_node->element = NULL;
-    current_node->next_node = NULL;
-    current_node = NULL;
+    head_node->element = NULL;
+    head_node->next_node = NULL;
+    head_node = NULL;
+    if (linked_list_length(list) == 1) {
+        list->tail = NULL;
+    }
+    free(head_node);
     list->count --;
 }
 
 void _remove_element_last_node(LinkedList *list) {
-    Node *current_node = list->head;
-    while (current_node->next_node != NULL) {
+    Node *tail_node = list->tail;
+    Node *before_node = _get_before_node(list, list->tail);
+    before_node->next_node = NULL;
+    list->tail = before_node;
+    tail_node->element = NULL;
+    tail_node = NULL;
+    free(tail_node);
+    list->count --;
+}
+
+void _remove_element_node_element(LinkedList *list, void *element) {
+    Node *current_node = list->head->next_node;
+    while (current_node != NULL) {
+        if (current_node->element == element) {
+            Node *before_node = _get_before_node(list, current_node);
+            *before_node = *current_node->next_node;
+            current_node->next_node = NULL;
+            current_node->element = NULL;
+            current_node = NULL;
+            free(current_node);
+            list->count --;
+            break;
+        }
         current_node = current_node->next_node;
     }
-    current_node->next_node = NULL;
-    current_node->element = NULL;
-    current_node = NULL;
-    list->count --;
 }
 
 
 void linked_list_remove(LinkedList *list, void *element) {
-    Node *current_node = list->head;
-    int index = 0;
-    while (current_node != NULL) {
-        if (current_node->element == element) {
-            if (current_node == list->head) {
-                _remove_element_first_node(list);
-            } else if (current_node->next_node == NULL) {
-                _remove_element_last_node(list);
-            }
-            else {
-                Node *before_node = _get_before_node(list, current_node);
-                *before_node = *current_node->next_node;
-                current_node->next_node = NULL;
-                current_node->element = NULL;
-                current_node = NULL;
-                list->count --;
-            }
-            break;
-        }
-        index ++;
-        current_node = current_node->next_node;
+    if (list->head->element == element) {
+        _remove_element_first_node(list);
+    } else if (list->tail->element == element) {
+        _remove_element_last_node(list);
+    } else {
+        _remove_element_node_element(list, element);
     }
 }
 
 void _remove_element_index_node(LinkedList *list, int index) {
-    Node *current_node = list->head;
-    int cont_index = 0;
+    Node *current_node = list->head->next_node;
+    int cont_index = 1;
     while (current_node != NULL) {
         if (cont_index == index) {
             linked_list_remove(list, current_node->element);
