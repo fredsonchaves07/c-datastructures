@@ -1,5 +1,7 @@
 # include <stdio.h>
 # include <string.h>
+# include <stdbool.h>
+# include "ctype.h"
 # include <time.h>
 # include "../include/list/linked_list.h"
 
@@ -31,8 +33,28 @@ void invalid_command() {
     exit(-1);
 }
 
+bool is_help(char **argv) {
+    return strcmp(argv[1], "-help") == 0;
+}
+
+bool is_linked_list(char **argv) {
+    return strcmp(argv[1], "linked_list") == 0;
+}
+
+void insert_linked_list(char **argv) {
+    if (argv[3] == NULL || argv[4] != NULL) invalid_command();
+    if (!isdigit(*argv[3]) || ((int ) (*argv[3] - 48) <= 0)) invalid_command();
+}
+
+int linked_list(char **argv) {
+    if (argv[2] == NULL) invalid_command();
+    if (strcmp(argv[2], "insert") == 0) insert_linked_list(argv);
+    return 0;
+}
+
 int main(int argc, char **argv) {
     if (argc <= 1 || argc > 6) invalid_command();
-    if (strcmp(argv[1], "-help") == 0) return help();
+    if (is_help(argv)) return help();
+    if (is_linked_list(argv)) return linked_list(argv);
     invalid_command();
 }
