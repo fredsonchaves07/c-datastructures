@@ -27,7 +27,8 @@ library: \
 	ar -rcs $(LIB)/libdatastructurec.a $(OBJ)/libdatastructurec.o
 
 myapps: clean_apps \
-	$(BIN)/perfomance_linked_list.x
+	$(BIN)/perfomance_linked_list.x \
+	$(BIN)/perfomance_datastructures.x
 
 mytest: clean_apps \
 	$(BIN)/test_app.x
