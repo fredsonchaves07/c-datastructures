@@ -1,6 +1,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <stdbool.h>
+# include <stdlib.h>
 # include "ctype.h"
 # include <time.h>
 # include "../include/list/linked_list.h"
@@ -41,14 +42,51 @@ bool is_linked_list(char **argv) {
     return strcmp(argv[1], "linked_list") == 0;
 }
 
-void insert_linked_list(char **argv) {
+LinkedList *create_linked_list() {
+    return linked_list_create(sizeof(int *));
+}
+
+void insert_linked_list(LinkedList *list, int elements) {
+    for (int i = 0; i < elements; i ++) {
+        int *index = (int *) i;
+        linked_list_push(list, (int *) index);
+    }
+}
+
+void clear_linked_list(LinkedList *list) {
+    linked_list_clear(list);
+}
+
+void insert_linked_list_perfomance(char **argv) {
     if (argv[3] == NULL || argv[4] != NULL) invalid_command();
-    if (!isdigit(*argv[3]) || ((int ) (*argv[3] - 48) <= 0)) invalid_command();
+    int elements = atoi(argv[3]);
+    if (!isdigit(*argv[3]) || elements <= 0) invalid_command();
+    LinkedList *list = create_linked_list();
+    FILE *file;
+    file = fopen("tmp/linked_list_perfomance.csv", "w");
+    fputs("datastructure;operation;element;time\n", file);
+    for (int i = 0; i < elements; i ++) {
+        double time_spent = 0.0;
+        int *index = (int *) i;
+        clock_t begin = clock();
+        linked_list_push(list, (int *) index);
+        clock_t end = clock();
+        time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+        char str[sizeof(elements)+100];
+        sprintf(str, "%d", i);
+        fputs("linked_list;insert;", file);
+        fputs(strcat(str, ";"), file);
+        sprintf(str, "%f", time_spent);
+        fputs(str, file);
+        fputs("\n", file);
+    }
+    fclose(file);
+    clear_linked_list(list);
 }
 
 int linked_list(char **argv) {
     if (argv[2] == NULL) invalid_command();
-    if (strcmp(argv[2], "insert") == 0) insert_linked_list(argv);
+    if (strcmp(argv[2], "insert") == 0) insert_linked_list_perfomance(argv);
     return 0;
 }
 
