@@ -34,6 +34,26 @@ void invalid_command() {
     exit(-1);
 }
 
+FILE *create_file(char *name) {
+    FILE *file;
+    char filename[100] = "tmp/";
+    strcat(filename, name);
+    file = fopen(filename, "w");
+    fputs("datastructure;operation;element;time\n", file);
+    return file;
+}
+
+void puts_data(FILE  *file, char *datastructure, char *operation, char *element, char *time) {
+    fputs(datastructure, file);
+    fputs(";", file);
+    fputs(operation, file);
+    fputs(";", file);
+    fputs(element, file);
+    fputs(";", file);
+    fputs(time, file);
+    fputs("\n", file);
+}
+
 bool is_help(char **argv) {
     return strcmp(argv[1], "-help") == 0;
 }
@@ -62,9 +82,7 @@ void insert_linked_list_perfomance(char **argv) {
     int elements = atoi(argv[3]);
     if (!isdigit(*argv[3]) || elements <= 0) invalid_command();
     LinkedList *list = create_linked_list();
-    FILE *file;
-    file = fopen("tmp/linked_list_perfomance.csv", "w");
-    fputs("datastructure;operation;element;time\n", file);
+    FILE *file = create_file("linked_list_perfomance_insert.csv");
     for (int i = 0; i < elements; i ++) {
         double time_spent = 0.0;
         int *index = (int *) i;
@@ -72,14 +90,13 @@ void insert_linked_list_perfomance(char **argv) {
         linked_list_push(list, (int *) index);
         clock_t end = clock();
         time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
-        char str[sizeof(elements)+100];
-        sprintf(str, "%d", i);
-        fputs("linked_list;insert;", file);
-        fputs(strcat(str, ";"), file);
-        sprintf(str, "%f", time_spent);
-        fputs(str, file);
-        fputs("\n", file);
+        char index_char[sizeof(elements) + 10000];
+        char time_char[sizeof(elements) + 10000];
+        sprintf(index_char, "%d", i);
+        sprintf(time_char, "%f", time_spent);
+        puts_data(file, "linked_list", "insert", index_char, time_char);
     }
+    printf("File linked_list_perfomance_insert.csv generate in /tmp\n");
     fclose(file);
     clear_linked_list(list);
 }

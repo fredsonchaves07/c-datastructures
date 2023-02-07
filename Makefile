@@ -7,6 +7,7 @@ APP = ./apps
 LIB = ./lib
 DATASTRUCTURE_DIR = ./src/datastructures
 TEST_DIR = ./test
+TMP = ./tmp
 
 FLAGS = -o3 -Wall
 LIBS = -lm -ldatastructurec -L $(LIB)
@@ -45,4 +46,4 @@ run_test:
 	$(BIN)/test_app.x
 
 clean:
-	rm -rf $(BIN)/* $(OBJ)/* $(LIB)/*
+	rm -rf $(BIN)/* $(OBJ)/* $(LIB)/* $(TMP)/*
