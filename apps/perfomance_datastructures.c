@@ -17,7 +17,12 @@ int help() {
     printf("     DATASTRUCTURE: \n");
     printf("        linked_list: To use the linked list data structure\n\n");
     printf("     OPERATION: \n");
-    printf("        insert: To use element insertion operation \n\n");
+    printf("        insert: To use element insertion operation \n");
+    printf("                ./perfomance_datastructure <datastructure> insert <data size elements> \n\n");
+    printf("           get: To use get insertion operation \n");
+    printf("                ./perfomance_datastructure <datastructure> get <data size elements> <get_element>\n\n");
+    printf("        remove: To use element remove operation \n");
+    printf("                ./perfomance_datastructure <datastructure> remove <data size elements> <remove_element> \n\n");
     printf("     DATA SIZE ELEMENTS: \n");
     printf("        <INT>: A number must be informed to inform the number of elements that will be added to the list \n\n");
     printf("     ARGUMENTS: \n");
@@ -101,9 +106,67 @@ void insert_linked_list_perfomance(char **argv) {
     clear_linked_list(list);
 }
 
+void push_element_linked_list(int elements, LinkedList *list) {
+    for (int i = 0; i <elements; i++) {
+        int *index = (int *) i;
+        linked_list_push(list, (int *) index);
+    }
+}
+
+void get_linked_list_perfomance(char **argv) {
+    if (argv[3] == NULL || argv[4] == NULL || argv[5] != NULL) invalid_command();
+    int elements = atoi(argv[3]);
+    if (!isdigit(*argv[3]) || elements <= 0) invalid_command();
+    int element = atoi(argv[4]);
+    if (!isdigit(*argv[4]) || element < 0 || element > elements) invalid_command();
+    LinkedList *list = create_linked_list();
+    push_element_linked_list(elements, list);
+    FILE *file = create_file("linked_list_perfomance_get.csv");
+    double time_spent = 0.0;
+    clock_t begin = clock();
+    linked_list_get_element(list, (int *) element);
+    clock_t end = clock();
+    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+    char index_char[sizeof(elements) + 10000];
+    char time_char[sizeof(elements) + 10000];
+    sprintf(index_char, "%d", element);
+    sprintf(time_char, "%f", time_spent);
+    puts_data(file, "linked_list", "get", index_char, time_char);
+    printf("File linked_list_perfomance_get.csv generate in /tmp\n");
+    fclose(file);
+    clear_linked_list(list);
+}
+
+void remove_linked_list_perfomance(char **argv) {
+    if (argv[3] == NULL || argv[4] == NULL || argv[5] != NULL) invalid_command();
+    int elements = atoi(argv[3]);
+    if (!isdigit(*argv[3]) || elements <= 0) invalid_command();
+    int element = atoi(argv[4]);
+    if (!isdigit(*argv[4]) || element < 0 || element > elements) invalid_command();
+    LinkedList *list = create_linked_list();
+    push_element_linked_list(elements, list);
+    FILE *file = create_file("linked_list_perfomance_remove.csv");
+    double time_spent = 0.0;
+    clock_t begin = clock();
+    linked_list_remove(list, (int *) element);
+    clock_t end = clock();
+    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+    char index_char[sizeof(elements) + 10000];
+    char time_char[sizeof(elements) + 10000];
+    sprintf(index_char, "%d", element);
+    sprintf(time_char, "%f", time_spent);
+    puts_data(file, "linked_list", "remove", index_char, time_char);
+    printf("File linked_list_perfomance_remove.csv generate in /tmp\n");
+    fclose(file);
+    clear_linked_list(list);
+}
+
 int linked_list(char **argv) {
-    if (argv[2] == NULL) invalid_command();
+    if (argv[2] == NULL || argv[3] == NULL) invalid_command();
+    if (!isdigit(*argv[2]) || atoi(argv[2]) <= 0) invalid_command();
     if (strcmp(argv[2], "insert") == 0) insert_linked_list_perfomance(argv);
+    if (strcmp(argv[2], "get") == 0) get_linked_list_perfomance(argv);
+    if (strcmp(argv[2], "remove") == 0) remove_linked_list_perfomance(argv);
     return 0;
 }
 
