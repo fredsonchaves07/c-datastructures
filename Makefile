@@ -39,7 +39,7 @@ clean_apps:
 run:
 	$(BIN)/app.x
 
-test: library mytest run_test
+test: clean_apps library mytest run_test
 
 run_test:
 	$(BIN)/test_app.x

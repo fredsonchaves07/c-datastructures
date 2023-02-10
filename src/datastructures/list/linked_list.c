@@ -6,6 +6,7 @@
 typedef struct _node {
     void *element;
     struct _node *next_node;
+    int index;
 } Node;
 
 struct _linked_list {
@@ -34,6 +35,7 @@ Node *_create_node(size_t size, void *element) {
 void _add_element_first_node(LinkedList *list, void *element) {
     Node *node = _create_node(list->data_size, element);
     Node *current_node = list->head;
+    node->index = 0;
     node->next_node = current_node;
     list->head = node;
     if (list->tail == NULL) {
@@ -46,6 +48,7 @@ void _add_element_last_node(LinkedList *list, void *element) {
     Node *node = _create_node(list->data_size, element);
     Node *current_node = list->tail;
     current_node->next_node = node;
+    node->index = linked_list_length(list) - 1;
     list->tail = node;
     list->count ++;
 }
