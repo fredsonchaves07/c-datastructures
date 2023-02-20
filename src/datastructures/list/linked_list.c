@@ -6,7 +6,7 @@
 typedef struct _node {
     void *element;
     struct _node *next_node;
-    int index;
+    size_t index;
 } Node;
 
 struct _linked_list {
@@ -29,18 +29,31 @@ Node *_create_node(size_t size, void *element) {
     node->next_node = NULL;
     node->element = malloc(size * sizeof(element));
     node->element = element;
+    node ->index = 0;
     return node;
+}
+
+void _add_index_node(LinkedList *list) {
+    Node *current_node = list->head;
+    size_t index = 0;
+    while (current_node != NULL) {
+        if (current_node->index != index) {
+            current_node->index = index;
+        }
+        index ++;
+        current_node = current_node -> next_node;
+    }
 }
 
 void _add_element_first_node(LinkedList *list, void *element) {
     Node *node = _create_node(list->data_size, element);
     Node *current_node = list->head;
-    node->index = 0;
     node->next_node = current_node;
     list->head = node;
     if (list->tail == NULL) {
         list->tail = node;
     }
+    _add_index_node(list);
     list->count ++;
 }
 
@@ -64,10 +77,11 @@ Node *_get_before_node(const LinkedList *list, Node *node) {
 
 void _add_element_index_node(LinkedList *list, void *element, int index) {
     Node *node = _create_node(list->data_size, element);
+    node->index = index;
     Node *current_node = list->head;
-    int cont_index = 1;
+    Node *tail_node = list->tail;
     while (current_node != NULL) {
-        if (cont_index == index) {
+        if (index == current_node->index) {
             Node *node_aux = current_node;
             Node *before_node = _get_before_node(list, current_node);
             current_node = node;
@@ -75,10 +89,31 @@ void _add_element_index_node(LinkedList *list, void *element, int index) {
             current_node->next_node = node_aux;
             break;
         }
-        cont_index ++;
+        if (index > tail_node->index) {
+            Node *before_node = _get_before_node(list, tail_node);
+            before_node->next_node = node;
+            list->tail = node;
+            break;
+        }
         current_node = current_node->next_node;
     }
     list->count ++;
+//    Node *node = _create_node(list->data_size, element);
+//    Node *current_node = list->head;
+//    int cont_index = 1;
+//    while (current_node != NULL) {
+//        if (cont_index == index) {
+//            Node *node_aux = current_node;
+//            Node *before_node = _get_before_node(list, current_node);
+//            current_node = node;
+//            before_node->next_node = current_node;
+//            current_node->next_node = node_aux;
+//            break;
+//        }
+//        cont_index ++;
+//        current_node = current_node->next_node;
+//    }
+//    list->count ++;
 }
 
 void linked_list_push(LinkedList *list, void *element) {
@@ -94,7 +129,7 @@ void linked_list_push_index(LinkedList *list, void *element, int index) {
         _add_element_first_node(list, element);
     } else if (index == 0) {
         _add_element_first_node(list, element);
-    } else if (index > linked_list_length(list)) {
+    } else if (index == linked_list_length(list) - 1) {
         _add_element_last_node(list, element);
     } else {
         _add_element_index_node(list, element, index);
