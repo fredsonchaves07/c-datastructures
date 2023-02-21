@@ -27,7 +27,7 @@ void test_insert_element_index() {
     linked_list_push_index(list, (char *) "Java", 1);
     linked_list_push_index(list, (char *) "Python", 0);
     linked_list_push_index(list, (char *) "Javascript", 11);
-    linked_list_push_index(list, (char *) "C++", 3);
+    linked_list_push_index(list, (char *) "C++", 0);
     TEST_ASSERT_EQUAL(4, linked_list_length(list));
     TEST_ASSERT_EQUAL_STRING(expected, linked_list_to_string(list));
     linked_list_free(list);

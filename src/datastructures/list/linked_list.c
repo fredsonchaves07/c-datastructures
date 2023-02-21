@@ -77,43 +77,38 @@ Node *_get_before_node(const LinkedList *list, Node *node) {
 
 void _add_element_index_node(LinkedList *list, void *element, int index) {
     Node *node = _create_node(list->data_size, element);
-    node->index = index;
-    Node *current_node = list->head;
     Node *tail_node = list->tail;
-    while (current_node != NULL) {
-        if (index == current_node->index) {
-            Node *node_aux = current_node;
-            Node *before_node = _get_before_node(list, current_node);
-            current_node = node;
-            before_node->next_node = current_node;
-            current_node->next_node = node_aux;
-            break;
+    node->index = index;
+    if (linked_list_is_empty(list)) {
+        list->head = node;
+        list->tail = node;
+    } else if (index > tail_node->index) {
+        list->tail->next_node = node;
+        list->tail = node;
+    } else if (index == tail_node->index) {
+        Node *before_node = _get_before_node(list, tail_node);
+        before_node->next_node = node;
+        list->tail = node;
+    } else {
+        Node *current_node = list->head;
+        while (current_node != NULL) {
+            if (index == current_node->index) {
+                Node *node_aux = current_node;
+                Node *before_node = _get_before_node(list, current_node);
+                current_node = node;
+                before_node->next_node = current_node;
+                current_node->next_node = node_aux;
+                break;
+            } else if (index < current_node->index) {
+                Node *before_node = _get_before_node(list, current_node);
+                before_node->next_node = node;
+                node->next_node = current_node;
+                break;
+            }
+            current_node = current_node->next_node;
         }
-        if (index > tail_node->index) {
-            Node *before_node = _get_before_node(list, tail_node);
-            before_node->next_node = node;
-            list->tail = node;
-            break;
-        }
-        current_node = current_node->next_node;
     }
     list->count ++;
-//    Node *node = _create_node(list->data_size, element);
-//    Node *current_node = list->head;
-//    int cont_index = 1;
-//    while (current_node != NULL) {
-//        if (cont_index == index) {
-//            Node *node_aux = current_node;
-//            Node *before_node = _get_before_node(list, current_node);
-//            current_node = node;
-//            before_node->next_node = current_node;
-//            current_node->next_node = node_aux;
-//            break;
-//        }
-//        cont_index ++;
-//        current_node = current_node->next_node;
-//    }
-//    list->count ++;
 }
 
 void linked_list_push(LinkedList *list, void *element) {
@@ -126,7 +121,7 @@ void linked_list_push(LinkedList *list, void *element) {
 
 void linked_list_push_index(LinkedList *list, void *element, int index) {
     if (linked_list_is_empty(list)) {
-        _add_element_first_node(list, element);
+        _add_element_index_node(list, element, index);
     } else if (index == 0) {
         _add_element_first_node(list, element);
     } else if (index == linked_list_length(list) - 1) {
