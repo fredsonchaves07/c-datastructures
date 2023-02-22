@@ -47,10 +47,16 @@ void _add_index_node(LinkedList *list) {
 
 void _add_element_first_node(LinkedList *list, void *element) {
     Node *node = _create_node(list->data_size, element);
-    Node *current_node = list->head;
-    node->next_node = current_node;
+    if (list->head != NULL && list->head->index != 0) {
+        Node *current_head = list->head;
+        node->next_node = current_head;
+    }
+    if (list->head != NULL && list->head->index == 0) {
+        Node *current_head = list->head;
+        node->next_node = current_head->next_node;
+    }
     list->head = node;
-    if (list->tail == NULL) {
+    if (list->tail == NULL || list->tail->index == 0) {
         list->tail = node;
     }
     _add_index_node(list);
@@ -82,10 +88,7 @@ void _add_element_index_node(LinkedList *list, void *element, int index) {
     if (linked_list_is_empty(list)) {
         list->head = node;
         list->tail = node;
-    } else if (index > tail_node->index) {
-        list->tail->next_node = node;
-        list->tail = node;
-    } else if (index == tail_node->index) {
+    } else if (index > tail_node->index || index == tail_node->index) {
         Node *before_node = _get_before_node(list, tail_node);
         before_node->next_node = node;
         list->tail = node;
@@ -93,11 +96,9 @@ void _add_element_index_node(LinkedList *list, void *element, int index) {
         Node *current_node = list->head;
         while (current_node != NULL) {
             if (index == current_node->index) {
-                Node *node_aux = current_node;
                 Node *before_node = _get_before_node(list, current_node);
-                current_node = node;
-                before_node->next_node = current_node;
-                current_node->next_node = node_aux;
+                before_node->next_node = node;
+                node->next_node = current_node->next_node;
                 break;
             } else if (index < current_node->index) {
                 Node *before_node = _get_before_node(list, current_node);
