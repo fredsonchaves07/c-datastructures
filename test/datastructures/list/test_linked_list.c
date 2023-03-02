@@ -33,6 +33,31 @@ void test_insert_element_index() {
     linked_list_free(list);
 }
 
+void test_insert_element_first_last_and_index() {
+    char expected[100] = {"[Python, Javascript, C++]"};
+    LinkedList *list = linked_list_create(sizeof(char *));
+    linked_list_push(list, (char *) "Java");
+    linked_list_push(list, (char *) "Javascript");
+    linked_list_push_index(list, (char *) "Python", 0);
+    linked_list_push_index(list, (char *) "C++", 2);
+    TEST_ASSERT_EQUAL(4, linked_list_length(list));
+    TEST_ASSERT_EQUAL_STRING(expected, linked_list_to_string(list));
+    linked_list_free(list);
+}
+
+void test_insert_element_first_index_and_last() {
+    char expected[100] = {"[Python, Delphi, C++, Java, Javascript]"};
+    LinkedList *list = linked_list_create(sizeof(char *));
+    linked_list_push_index(list, (char *) "C++", 2);
+    linked_list_push(list, (char *) "Java");
+    linked_list_push(list, (char *) "Javascript");
+    linked_list_push_index(list, (char *) "Python", 0);
+    linked_list_push_index(list, (char *) "Delphi", 1);
+    TEST_ASSERT_EQUAL(5, linked_list_length(list));
+    TEST_ASSERT_EQUAL_STRING(expected, linked_list_to_string(list));
+    linked_list_free(list);
+}
+
 void test_get_string_linked_list() {
     char expected[100] = {"[Java, Python, Javascript]"};
     LinkedList *list = create_list();
@@ -113,6 +138,8 @@ void run_tests() {
     RUN_TEST(test_create_linked_list);
     RUN_TEST(test_get_string_linked_list);
     RUN_TEST(test_insert_element_index);
+    RUN_TEST(test_insert_element_first_last_and_index);
+    RUN_TEST(test_insert_element_first_index_and_last);
     RUN_TEST(test_should_create_list_empty);
     RUN_TEST(test_get_element);
     RUN_TEST(test_get_null_if_element_not_exist);

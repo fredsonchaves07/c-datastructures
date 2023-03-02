@@ -65,7 +65,7 @@ void _add_element_last_node(LinkedList *list, void *element, size_t index) {
     Node *current_node = list->tail;
     current_node->next_node = node;
     if (index == 0) {
-        node->index = linked_list_length(list) - 1;
+        node->index = current_node->index + 1;
     } else {
         node->index = index;
     }
