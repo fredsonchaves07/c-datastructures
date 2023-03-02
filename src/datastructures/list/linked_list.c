@@ -153,21 +153,32 @@ void *linked_list_get_element(const LinkedList *list, void *element) {
     return NULL;
 }
 
+void *_get_element_last_node(const LinkedList *list) {
+    return list->tail->element;
+}
+
 void *_get_element_first_node(const LinkedList *list) {
     return list->head->element;
 }
 
-void *linked_list_get_element_index(const LinkedList *list, size_t index) {
+void *_get_element_index_node(const LinkedList *list, size_t index) {
     Node *current_node = list->head;
-    int cont_index = 0;
     while (current_node != NULL) {
-        if (index == cont_index) {
+        if (index == current_node->index) {
             return current_node->element;
         }
         current_node = current_node->next_node;
-        cont_index ++;
     }
     return NULL;
+}
+
+void *linked_list_get_element_index(const LinkedList *list, size_t index) {
+    if (list->head->index == index) {
+        return _get_element_first_node(list);
+    } else if (list->tail->index == index) {
+        return _get_element_last_node(list);
+    }
+    return _get_element_index_node(list, index);
 }
 
 void _remove_element_first_node(LinkedList *list) {
