@@ -126,6 +126,21 @@ void test_should_get_element_by_index() {
     linked_list_free(list);
 }
 
+void test_should_get_element_by_index_after_insert_with_index_and_without_index() {
+    LinkedList *list = linked_list_create(sizeof(char *));
+    linked_list_push_index(list, (char *) "C++", 2);
+    linked_list_push(list, (char *) "Java");
+    linked_list_push(list, (char *) "Javascript");
+    linked_list_push_index(list, (char *) "Python", 0);
+    linked_list_push_index(list, (char *) "Delphi", 1);
+    TEST_ASSERT_EQUAL("C++", linked_list_get_element_index(list, 2));
+    TEST_ASSERT_EQUAL("Python", linked_list_get_element_index(list, 0));
+    TEST_ASSERT_EQUAL("Delphi", linked_list_get_element_index(list, 1));
+    TEST_ASSERT_EQUAL("Java", linked_list_get_element_index(list, 3));
+    TEST_ASSERT_EQUAL("Javascript", linked_list_get_element_index(list, 4));
+    linked_list_free(list);
+}
+
 void test_should_clear_list() {
     LinkedList *list = create_list();
     linked_list_clear(list);
@@ -149,6 +164,7 @@ void run_tests() {
     RUN_TEST(test_should_get_index_element);
     RUN_TEST(test_should_get_element_by_element);
     RUN_TEST(test_should_get_element_by_index);
+    RUN_TEST(test_should_get_element_by_index_after_insert_with_index_and_without_index);
     RUN_TEST(test_should_clear_list);
 }
 
