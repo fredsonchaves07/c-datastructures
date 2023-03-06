@@ -108,6 +108,17 @@ void test_should_remove_element_at_index() {
     linked_list_free(list);
 }
 
+void test_should_remove_index_with_append() {
+    LinkedList *list = create_list();
+    linked_list_push_index(list, (char * ) "Delphi", 0);
+    linked_list_push(list, (char * ) "Java");
+    linked_list_remove_index(list, 0);
+    linked_list_remove_index(list, 3);
+    TEST_ASSERT_NULL(linked_list_get_element(list, (char * ) "Delphi"));
+    TEST_ASSERT_NULL(linked_list_get_element(list, (char * ) "Java"));
+    TEST_ASSERT_EQUAL(2, linked_list_length(list));
+}
+
 void test_should_get_index_element() {
     LinkedList *list = create_list();
     TEST_ASSERT_EQUAL(1, linked_list_index_of(list, (char * ) "Python"));
@@ -161,6 +172,7 @@ void run_tests() {
     RUN_TEST(test_should_remove_element);
     RUN_TEST(test_not_should_remove_element_if_element_is_not_exist);
     RUN_TEST(test_should_remove_element_at_index);
+    RUN_TEST(test_should_remove_index_with_append);
     RUN_TEST(test_should_get_index_element);
     RUN_TEST(test_should_get_element_by_element);
     RUN_TEST(test_should_get_element_by_index);

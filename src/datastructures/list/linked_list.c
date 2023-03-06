@@ -235,20 +235,20 @@ void linked_list_remove(LinkedList *list, void *element) {
 
 void _remove_element_index_node(LinkedList *list, int index) {
     Node *current_node = list->head->next_node;
-    int cont_index = 1;
     while (current_node != NULL) {
-        if (cont_index == index) {
-            linked_list_remove(list, current_node->element);
+        if (index == current_node->index) {
+            Node *before_node = _get_before_node(list, current_node);
+            before_node->next_node = current_node->next_node;
+            list->count --;
         }
         current_node = current_node->next_node;
-        cont_index ++;
     }
 }
 
 void linked_list_remove_index(LinkedList *list, size_t index) {
-    if (index == 0) {
+    if (index == list->head->index) {
         _remove_element_first_node(list);
-    } else if (index == linked_list_length(list) - 1) {
+    } else if (index == list->tail->index) {
         _remove_element_last_node(list);
     } else {
         _remove_element_index_node(list, index);
