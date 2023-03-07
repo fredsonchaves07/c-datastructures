@@ -40,7 +40,7 @@ void test_insert_element_first_last_and_index() {
     linked_list_push(list, (char *) "Javascript");
     linked_list_push_index(list, (char *) "Python", 0);
     linked_list_push_index(list, (char *) "C++", 2);
-    TEST_ASSERT_EQUAL(4, linked_list_length(list));
+    TEST_ASSERT_EQUAL(3, linked_list_length(list));
     TEST_ASSERT_EQUAL_STRING(expected, linked_list_to_string(list));
     linked_list_free(list);
 }

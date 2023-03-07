@@ -50,14 +50,16 @@ void _add_element_first_node(LinkedList *list, void *element, size_t index) {
     if (index != 0) node->index = index;
     if (list->head != NULL && list->head->index != 0) {
         node->next_node = list->head;
+        list->count ++;
     } else if (list->head != NULL && list->head->index == 0) {
         node->next_node = list->head->next_node;
     }
     list->head = node;
     if (list->tail == NULL || list->tail->index == 0) {
+        list->count ++;
         list->tail = node;
     }
-    list->count ++;
+
 }
 
 void _add_element_last_node(LinkedList *list, void *element, size_t index) {
