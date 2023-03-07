@@ -134,14 +134,18 @@ void linked_list_push(LinkedList *list, void *element) {
 }
 
 int linked_list_index_of(const LinkedList *list, void *element) {
-    Node *current_node = list->head;
-    int index = 0;
-    while (current_node != NULL) {
-        if (current_node->element == element) {
-            return index;
+    if (list->head->element == element) {
+        return list->head->index;
+    } else if (list->tail->element == element) {
+        return list->tail->index;
+    } else {
+        Node *current_node = list->head;
+        while (current_node != NULL) {
+            if (current_node->element == element) {
+                return current_node->index;
+            }
+            current_node = current_node->next_node;
         }
-        current_node = current_node->next_node;
-        index ++;
     }
     return -1;
 }
