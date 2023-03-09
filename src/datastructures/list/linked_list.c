@@ -33,33 +33,43 @@ Node *_create_node(size_t size, void *element) {
     return node;
 }
 
-void _add_index_node(LinkedList *list) {
-    Node *current_node = list->head;
-    size_t index = 0;
-    while (current_node != NULL) {
-        if (current_node->index != index) {
-            current_node->index = index;
-        }
-        index ++;
-        current_node = current_node -> next_node;
-    }
+void _add_index_head_node(Node *node, size_t index) {
+    if (index != 0) node->index = index;
+}
+
+bool _head_is_not_null(const LinkedList *list) {
+    return list->head == NULL;
+}
+
+bool _tail_is_not_null(const LinkedList *list) {
+    return list->tail == NULL;
+}
+
+bool _node_head_index_is_0(const LinkedList *list) {
+    return list->head == NULL || list->head->index == 0;
+}
+
+bool _node_tail_index_is_0(const LinkedList *list) {
+    return list->tail == NULL || list->tail->index == 0;
 }
 
 void _add_element_first_node(LinkedList *list, void *element, size_t index) {
     Node *node = _create_node(list->data_size, element);
-    if (index != 0) node->index = index;
-    if (list->head != NULL && list->head->index != 0) {
+    _add_index_head_node(node, index);
+    if (!_node_head_index_is_0(list)) {
         node->next_node = list->head;
         list->count ++;
-    } else if (list->head != NULL && list->head->index == 0) {
+    }
+
+    if (!linked_list_is_empty(list) && _node_head_index_is_0(list)) {
         node->next_node = list->head->next_node;
     }
-    list->head = node;
-    if (list->tail == NULL || list->tail->index == 0) {
+
+    if (_tail_is_not_null(list) || _node_tail_index_is_0(list)) {
         list->count ++;
         list->tail = node;
     }
-
+    list->head = node;
 }
 
 void _add_element_last_node(LinkedList *list, void *element, size_t index) {
