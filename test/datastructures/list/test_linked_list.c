@@ -1,11 +1,7 @@
 # include <string.h>
 
-# include "../../../modules/Unity/unity.h"
 # include "../../../include/list/linked_list.h"
-
-void setUp() {}
-
-void tearDown(){}
+# include "../../test_app.h"
 
 LinkedList *create_list() {
     LinkedList *list = linked_list_create(sizeof(char *));
@@ -170,7 +166,7 @@ void test_should_clear_list() {
     linked_list_free(list);
 }
 
-void run_tests() {
+void run_test_linked_list() {
     RUN_TEST(test_create_linked_list);
     RUN_TEST(test_get_string_linked_list);
     RUN_TEST(test_insert_element_index);
@@ -189,10 +185,4 @@ void run_tests() {
     RUN_TEST(test_should_get_element_by_index);
     RUN_TEST(test_should_get_element_by_index_after_insert_with_index_and_without_index);
     RUN_TEST(test_should_clear_list);
-}
-
-int main(void) {
-    UNITY_BEGIN();
-    run_tests();
-    return UNITY_END();
 }

@@ -20,8 +20,9 @@ $(OBJ)/%.o: $(SRC)/datastructures/list/%.c $(INCLUDE)/list/%.h
 $(BIN)/%.x: $(APP)/%.c
 	gcc $(FLAGS) $< $(LIBS) -I $(INCLUDE) -o $@
 
-$(BIN)/%.x: $(TEST_DIR)/datastructures/list/test_linked_list.c
+$(BIN)/%.x: $(TEST_DIR)/test_app.c
 	gcc $(FLAGS) $< $(LIBS) -I $(INCLUDE) $(MODULES)/Unity/unity.c -o $@
+
 
 library: \
 	$(OBJ)/*.o

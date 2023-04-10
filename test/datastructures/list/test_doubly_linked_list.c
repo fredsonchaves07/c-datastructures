@@ -1,20 +1,10 @@
-# include "../../../modules/Unity/unity.h"
 # include "../../../include/list/doubly_linked_list.h"
-
-void setUp() {}
-
-void tearDown(){}
+# include "../../test_app.h"
 
 void test_create_doubly_linked_list() {
     TEST_ASSERT_TRUE(1);
 }
 
-void run_tests() {
+void run_test_doubly_linked_list() {
     RUN_TEST(test_create_doubly_linked_list);
-}
-
-int main(void) {
-    UNITY_BEGIN();
-    run_tests();
-    return UNITY_END();
 }
