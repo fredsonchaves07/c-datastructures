@@ -34,14 +34,15 @@ Node *_create_node(size_t size, void *element) {
 }
 
 void _add_index_head_node(Node *node, size_t index) {
-    if (index != 0) node->index = index;
+    if (index != 0)
+        node->index = index;
 }
 
 bool _head_is_not_null(const LinkedList *list) {
     return list->head == NULL;
 }
 
-bool _tail_is_not_null(const LinkedList *list) {
+bool _tail_is_null(const LinkedList *list) {
     return list->tail == NULL;
 }
 
@@ -60,12 +61,10 @@ void _add_element_first_node(LinkedList *list, void *element, size_t index) {
         node->next_node = list->head;
         list->count ++;
     }
-
     if (!linked_list_is_empty(list) && _node_head_index_is_0(list)) {
         node->next_node = list->head->next_node;
     }
-
-    if (_tail_is_not_null(list) || _node_tail_index_is_0(list)) {
+    if (_tail_is_null(list) || _node_tail_index_is_0(list)) {
         list->count ++;
         list->tail = node;
     }
