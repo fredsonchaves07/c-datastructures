@@ -10,8 +10,18 @@ DoublyLinkedList *doubly_linked_list_create(size_t data_size);
 
 void doubly_linked_list_push(DoublyLinkedList *list, void *element);
 
+void doubly_linked_list_push_index(DoublyLinkedList *list, void *element, size_t index);
+
+void *doubly_linked_list_get_element(const DoublyLinkedList *list, void *element);
+
 bool doubly_linked_list_is_empty(const DoublyLinkedList *list);
 
 int doubly_linked_list_length(const DoublyLinkedList *list);
+
+char *doubly_linked_list_to_string(const DoublyLinkedList *list);
+
+void doubly_linked_list_clear(DoublyLinkedList *list);
+
+void doubly_linked_list_free(DoublyLinkedList *list);
 
 #endif

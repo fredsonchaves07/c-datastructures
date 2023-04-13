@@ -12,8 +12,10 @@ LinkedList *create_linked_list() {
 }
 
 void test_create_linked_list() {
+    char expected[100] = {"[Java, Python, Javascript]"};
     LinkedList *list = create_linked_list();
     TEST_ASSERT_EQUAL(3, linked_list_length(list));
+    TEST_ASSERT_EQUAL_STRING(expected, linked_list_to_string(list));
 }
 
 void test_insert_element_index() {
