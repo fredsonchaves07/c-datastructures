@@ -74,6 +74,46 @@ void test_doubly_get_element() {
     doubly_linked_list_free(list);
 }
 
+void test_doubly_get_null_if_element_not_exist() {
+    DoublyLinkedList *list = create_doubly_linked_list();
+    TEST_ASSERT_NULL(doubly_linked_list_get_element(list, (char * ) "Delphi"));
+    doubly_linked_list_free(list);
+}
+
+void test_doubly_should_remove_element() {
+    DoublyLinkedList *list = create_doubly_linked_list();
+    doubly_linked_list_remove(list, (char *) "Python");
+    TEST_ASSERT_EQUAL(2, doubly_linked_list_length(list));
+    TEST_ASSERT_NULL(doubly_linked_list_get_element(list, (char * ) "Python"));
+    doubly_linked_list_free(list);
+}
+
+void test_doubly_not_should_remove_element_if_element_is_not_exist() {
+    DoublyLinkedList *list = create_doubly_linked_list();
+    doubly_linked_list_remove(list, (char *) "Delphi");
+    TEST_ASSERT_EQUAL(3, doubly_linked_list_length(list));
+    doubly_linked_list_free(list);
+}
+
+void test_doubly_should_remove_element_at_index() {
+    DoublyLinkedList *list = create_doubly_linked_list();
+    doubly_linked_list_remove_index(list, 1);
+    TEST_ASSERT_EQUAL(2, doubly_linked_list_length(list));
+    TEST_ASSERT_NULL(doubly_linked_list_get_element(list, (char * ) "Python"));
+    doubly_linked_list_free(list);
+}
+
+void test_doubly_should_remove_index_with_append() {
+    DoublyLinkedList *list = create_doubly_linked_list();
+    doubly_linked_list_push_index(list, (char * ) "Delphi", 0);
+    doubly_linked_list_push(list, (char * ) "Java");
+    doubly_linked_list_remove_index(list, 0);
+    doubly_linked_list_remove_index(list, 3);
+    TEST_ASSERT_NULL(doubly_linked_list_get_element(list, (char * ) "Delphi"));
+    TEST_ASSERT_NULL(doubly_linked_list_get_element(list, (char * ) "Java"));
+    TEST_ASSERT_EQUAL(2, doubly_linked_list_length(list));
+}
+
 void run_test_doubly_linked_list() {
     RUN_TEST(test_create_doubly_linked_list);
     RUN_TEST(test_get_string_doubly_linked_list);
@@ -82,4 +122,9 @@ void run_test_doubly_linked_list() {
     RUN_TEST(test_doubly_insert_element_first_index_and_last);
     RUN_TEST(test_should_create_doubly_list_empty);
     RUN_TEST(test_doubly_get_element);
+    RUN_TEST(test_doubly_get_null_if_element_not_exist);
+    RUN_TEST(test_doubly_should_remove_element);
+    RUN_TEST(test_doubly_not_should_remove_element_if_element_is_not_exist);
+    RUN_TEST(test_doubly_should_remove_element_at_index);
+    RUN_TEST(test_doubly_should_remove_index_with_append);
 }

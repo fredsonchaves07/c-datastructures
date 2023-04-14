@@ -14,6 +14,10 @@ void doubly_linked_list_push_index(DoublyLinkedList *list, void *element, size_t
 
 void *doubly_linked_list_get_element(const DoublyLinkedList *list, void *element);
 
+void doubly_linked_list_remove(DoublyLinkedList *list, void *element);
+
+void doubly_linked_list_remove_index(DoublyLinkedList *list, size_t index);
+
 bool doubly_linked_list_is_empty(const DoublyLinkedList *list);
 
 int doubly_linked_list_length(const DoublyLinkedList *list);

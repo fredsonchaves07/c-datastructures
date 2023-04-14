@@ -172,6 +172,81 @@ void *doubly_linked_list_get_element(const DoublyLinkedList *list, void *element
         return _get_element_doubly_node(list, element);
 }
 
+void _remove_element_first_doubly_node(DoublyLinkedList *list) {
+    DoublyNode *head_node = list->head;
+    list->head = list->head->next_node;
+    list->head->next_node->prev_node = list->head;
+    head_node->element = NULL;
+    head_node->next_node = NULL;
+    head_node = NULL;
+    if (doubly_linked_list_length(list) == 1) {
+        list->tail = NULL;
+    }
+    free(head_node);
+    list->count --;
+}
+
+void _remove_element_last_doubly_node(DoublyLinkedList *list) {
+    DoublyNode *tail_node = list->tail;
+    DoublyNode *before_node = list->tail->prev_node;
+    before_node->next_node = NULL;
+    list->tail = before_node;
+    tail_node->element = NULL;
+    tail_node = NULL;
+    free(tail_node);
+    list->count --;
+}
+
+void _remove_element_doubly_node_element(DoublyLinkedList *list, void *element) {
+    DoublyNode *current_node = list->head->next_node;
+    while (current_node != NULL) {
+        if (current_node->element == element) {
+            DoublyNode *before_node = current_node->prev_node;
+            *before_node = *current_node->next_node;
+            current_node->next_node = NULL;
+            current_node->element = NULL;
+            current_node = NULL;
+            free(current_node);
+            list->count --;
+            break;
+        }
+        current_node = current_node->next_node;
+    }
+}
+
+void _remove_element_index_doubly_node(DoublyLinkedList *list, int index) {
+    DoublyNode *current_node = list->head->next_node;
+    while (current_node != NULL) {
+        if (index == current_node->index) {
+            DoublyNode *before_node = current_node->prev_node;
+            before_node->next_node = current_node->next_node;
+            current_node->next_node->prev_node = before_node;
+            list->count --;
+        }
+        current_node = current_node->next_node;
+    }
+}
+
+void doubly_linked_list_remove(DoublyLinkedList *list, void *element) {
+    if (list->head->element == element) {
+        _remove_element_first_doubly_node(list);
+    } else if (list->tail->element == element) {
+        _remove_element_last_doubly_node(list);
+    } else {
+        _remove_element_doubly_node_element(list, element);
+    }
+}
+
+void doubly_linked_list_remove_index(DoublyLinkedList *list, size_t index) {
+    if (index == list->head->index) {
+        _remove_element_first_doubly_node(list);
+    } else if (index == list->tail->index) {
+        _remove_element_last_doubly_node(list);
+    } else {
+        _remove_element_index_doubly_node(list, index);
+    }
+}
+
 bool doubly_linked_list_is_empty(const DoublyLinkedList *list) {
     return list->head == NULL;
 }
