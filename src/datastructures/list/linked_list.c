@@ -34,14 +34,15 @@ Node *_create_node(size_t size, void *element) {
 }
 
 void _add_index_head_node(Node *node, size_t index) {
-    if (index != 0) node->index = index;
+    if (index != 0)
+        node->index = index;
 }
 
 bool _head_is_not_null(const LinkedList *list) {
     return list->head == NULL;
 }
 
-bool _tail_is_not_null(const LinkedList *list) {
+bool _tail_is_null(const LinkedList *list) {
     return list->tail == NULL;
 }
 
@@ -60,12 +61,10 @@ void _add_element_first_node(LinkedList *list, void *element, size_t index) {
         node->next_node = list->head;
         list->count ++;
     }
-
     if (!linked_list_is_empty(list) && _node_head_index_is_0(list)) {
         node->next_node = list->head->next_node;
     }
-
-    if (_tail_is_not_null(list) || _node_tail_index_is_0(list)) {
+    if (_tail_is_null(list) || _node_tail_index_is_0(list)) {
         list->count ++;
         list->tail = node;
     }
@@ -160,15 +159,6 @@ int linked_list_index_of(const LinkedList *list, void *element) {
     return -1;
 }
 
-void *linked_list_get_element(const LinkedList *list, void *element) {
-    Node *current_node = list->head;
-    while (current_node != NULL) {
-        if (current_node->element == element) return element;
-        current_node = current_node->next_node;
-    }
-    return NULL;
-}
-
 void *_get_element_last_node(const LinkedList *list) {
     return list->tail->element;
 }
@@ -180,12 +170,30 @@ void *_get_element_first_node(const LinkedList *list) {
 void *_get_element_index_node(const LinkedList *list, size_t index) {
     Node *current_node = list->head;
     while (current_node != NULL) {
-        if (index == current_node->index) {
+        if (index == current_node->index)
             return current_node->element;
-        }
         current_node = current_node->next_node;
     }
     return NULL;
+}
+
+void *_get_element_node(const LinkedList *list, void *element) {
+    Node *current_node = list->head;
+    while (current_node != NULL) {
+        if (current_node->element == element)
+            return current_node->element;
+        current_node = current_node->next_node;
+    }
+    return NULL;
+}
+
+void *linked_list_get_element(const LinkedList *list, void *element) {
+    if (list->head->element == element)
+        return _get_element_first_node(list);
+    else if (list->tail->element == element)
+        return _get_element_last_node(list);
+    else
+        return _get_element_node(list, element);
 }
 
 void *linked_list_get_element_index(const LinkedList *list, size_t index) {
