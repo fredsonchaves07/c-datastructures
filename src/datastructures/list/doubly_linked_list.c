@@ -135,6 +135,23 @@ void doubly_linked_list_push_index(DoublyLinkedList *list, void *element, size_t
         _add_element_index_doubly_node(list, element, index);
 }
 
+int doubly_linked_list_index_of(const DoublyLinkedList *list, void *element) {
+    if (list->head->element == element) {
+        return list->head->index;
+    } else if (list->tail->element == element) {
+        return list->tail->index;
+    } else {
+        DoublyNode *current_node = list->head;
+        while (current_node != NULL) {
+            if (current_node->element == element) {
+                return current_node->index;
+            }
+            current_node = current_node->next_node;
+        }
+    }
+    return -1;
+}
+
 void *_get_element_last_doubly_node(const DoublyLinkedList *list) {
     return list->tail->element;
 }
@@ -170,6 +187,15 @@ void *doubly_linked_list_get_element(const DoublyLinkedList *list, void *element
         return _get_element_last_doubly_node(list);
     else
         return _get_element_doubly_node(list, element);
+}
+
+void *doubly_linked_list_get_element_index(const DoublyLinkedList *list, size_t index) {
+    if (list->head->index == index) {
+        return _get_element_first_doubly_node(list);
+    } else if (list->tail->index == index) {
+        return _get_element_last_doubly_node(list);
+    }
+    return _get_element_index_doubly_node(list, index);
 }
 
 void _remove_element_first_doubly_node(DoublyLinkedList *list) {

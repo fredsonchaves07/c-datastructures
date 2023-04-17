@@ -12,7 +12,11 @@ void doubly_linked_list_push(DoublyLinkedList *list, void *element);
 
 void doubly_linked_list_push_index(DoublyLinkedList *list, void *element, size_t index);
 
+int doubly_linked_list_index_of(const DoublyLinkedList *list, void *element);
+
 void *doubly_linked_list_get_element(const DoublyLinkedList *list, void *element);
+
+void *doubly_linked_list_get_element_index(const DoublyLinkedList *list, size_t index);
 
 void doubly_linked_list_remove(DoublyLinkedList *list, void *element);
 
