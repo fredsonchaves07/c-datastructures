@@ -12,9 +12,9 @@ TMP = ./tmp
 FLAGS = -O3 -Wall
 LIBS = -lm -led -L $(LIB)
 
-all: libed myapps
+all: directory libed myapps
 
-test: libed mytest run_test
+test: directory libed mytest run_test
 
 libed: \
 	$(OBJ)/linked_list.o \
@@ -32,6 +32,9 @@ clean_apps:
 
 clean:
 	rm -rf $(BIN)/* $(OBJ)/* $(LIB)/* $(TMP)/*
+
+directory:
+	mkdir -p $(BIN) $(OBJ) $(LIB) $(TMP)
 
 run:
 	$(BIN)/app.x

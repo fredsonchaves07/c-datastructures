@@ -13,7 +13,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: directory
-      run: pwd
-    - name: configure
-      run: make
+    - name: Tests
+      run: make test
