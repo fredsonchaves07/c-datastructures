@@ -163,7 +163,7 @@ void remove_linked_list_perfomance(char **argv) {
 
 int linked_list(char **argv) {
     if (argv[2] == NULL || argv[3] == NULL) invalid_command();
-    if (!isdigit(*argv[2]) || atoi(argv[2]) <= 0) invalid_command();
+    if (!isdigit(*argv[3]) || atoi(argv[3]) <= 0) invalid_command();
     if (strcmp(argv[2], "insert") == 0) insert_linked_list_perfomance(argv);
     if (strcmp(argv[2], "get") == 0) get_linked_list_perfomance(argv);
     if (strcmp(argv[2], "remove") == 0) remove_linked_list_perfomance(argv);
