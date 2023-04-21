@@ -8,4 +8,6 @@ void run_test_linked_list();
 
 void run_test_doubly_linked_list();
 
+void run_test_array_list();
+
 # endif
