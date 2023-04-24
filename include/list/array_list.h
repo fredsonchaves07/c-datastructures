@@ -8,7 +8,11 @@ typedef struct _array_list ArrayList;
 
 ArrayList *array_list_create(size_t data_size);
 
+ArrayList  *array_list_create_capacity(size_t data_size, size_t capacity);
+
 void array_list_push(ArrayList *list, void *element);
+
+void array_list_push_index(ArrayList *list, void *element, size_t index);
 
 bool array_list_is_empty(const ArrayList *list);
 

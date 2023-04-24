@@ -18,6 +18,13 @@ ArrayList *array_list_create(size_t data_size) {
     return arrayList;
 }
 
+ArrayList  *array_list_create_capacity(size_t data_size, size_t capacity) {
+    ArrayList *arrayList = calloc(1, sizeof(ArrayList));
+    arrayList->data_size = data_size;
+    arrayList->capacity = capacity;
+    return arrayList;
+}
+
 bool _is_full(const ArrayList *list) {
     return list->count >= list->capacity;
 }
@@ -44,6 +51,30 @@ void array_list_push(ArrayList *list, void *element) {
         }
     }
     list->count += 1;
+}
+
+void _add_element_first_index(ArrayList *list, void *element, size_t index) {
+    if (array_list_is_empty(list) || list->elements[index] == NULL) {
+        list->elements[index] = element;
+        list->count +=1;
+    } else {
+        list->elements[index] = element;
+    }
+}
+
+void _add_element_index(ArrayList *list, void *element, size_t index) {
+    list->elements[index] = element;
+    list->count += 1;
+}
+
+void array_list_push_index(ArrayList *list, void *element, size_t index) {
+    if (_is_full(list) || index > list->count)
+        _increase_capacity(list);
+    if (array_list_is_empty(list) || index == 0)
+        _add_element_first_index(list, element, index);
+    else {
+        _add_element_index(list, element, index);
+    }
 }
 
 bool array_list_is_empty(const ArrayList *list) {
