@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -30,14 +31,15 @@ void _increase_capacity(ArrayList *list) {
 }
 
 void array_list_push(ArrayList *list, void *element) {
-    if (_is_full(list))
+    if (_is_full(list)){
         _increase_capacity(list);
+    }
     for (int i = list->capacity - 1; i >= 0; i --) {
-        if (list->elements[i] != 0) {
+        if (list->elements[i] != NULL) {
             list->elements[i + 1] = element;
             break;
         }
-        if (list->elements[i] == NULL || i == 0) {
+        if (list->elements[i] == NULL && i == 0) {
             list->elements[i] = element;
         }
     }
@@ -55,12 +57,12 @@ size_t array_list_length(const ArrayList *list) {
 char *array_list_to_string(const ArrayList *list) {
     if (array_list_is_empty(list))
         return "[]";
-    char *array_list_data = calloc(1, sizeof(char *));
+    char *array_list_data = calloc(1, list->data_size * sizeof(char *));
     strcat(array_list_data, "[");
-    for (int i = 0; i <= list->count; i++) {
+    for (int i = 0; i < list->count; i++) {
         strcat(array_list_data, list->elements[i]);
-//        if (list->elements[i + 1] != NULL)
-//            strcat(array_list_data, ", ");
+        if (list->elements[i + 1] != NULL)
+            strcat(array_list_data, ", ");
     }
     return strcat(array_list_data, (char *) "]");
 }
