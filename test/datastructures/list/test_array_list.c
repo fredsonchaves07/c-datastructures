@@ -120,6 +120,27 @@ void array_list_test_get_element_by_index() {
     TEST_ASSERT_EQUAL("Python", array_list_get_element_index(list, 1));
 }
 
+void array_list_test_get_element_by_index_after_insert_with_index_and_without_index() {
+    ArrayList *list = array_list_create_capacity(sizeof(char *), 1);
+    array_list_push_index(list, "C++", 2);
+    array_list_push(list, "Java");
+    array_list_push(list, "Javascript");
+    array_list_push_index(list, "Python", 0);
+    array_list_push_index(list, "Delphi", 1);
+    TEST_ASSERT_EQUAL("C++", array_list_get_element_index(list, 2));
+    TEST_ASSERT_EQUAL("Python", array_list_get_element_index(list, 0));
+    TEST_ASSERT_EQUAL("Delphi", array_list_get_element_index(list, 1));
+    TEST_ASSERT_EQUAL("Java", array_list_get_element_index(list, 3));
+    TEST_ASSERT_EQUAL("Javascript", array_list_get_element_index(list, 4));
+}
+
+void array_list_test_clear_list() {
+    ArrayList *list = create_array_list();
+    array_list_clear(list);
+    TEST_ASSERT_TRUE(array_list_is_empty(list));
+    TEST_ASSERT_EQUAL_STRING("[]", array_list_to_string(list));
+}
+
 void run_test_array_list() {
     RUN_TEST(array_list_test_create_array_list);
     RUN_TEST(array_list_test_create_list_with_capacity);
@@ -133,4 +154,6 @@ void run_test_array_list() {
     RUN_TEST(array_list_test_get_index_element_with_append_last_and_index);
     RUN_TEST(array_list_test_get_element_by_element);
     RUN_TEST(array_list_test_get_element_by_index);
+    RUN_TEST(array_list_test_get_element_by_index_after_insert_with_index_and_without_index);
+    RUN_TEST(array_list_test_clear_list);
 }

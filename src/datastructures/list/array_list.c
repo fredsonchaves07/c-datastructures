@@ -22,6 +22,8 @@ ArrayList  *array_list_create_capacity(size_t data_size, size_t capacity) {
     ArrayList *arrayList = calloc(1, sizeof(ArrayList));
     arrayList->data_size = data_size;
     arrayList->capacity = capacity;
+    if (arrayList->capacity == 0)
+        arrayList->capacity = 10;
     return arrayList;
 }
 
@@ -30,7 +32,7 @@ bool _is_full(const ArrayList *list) {
 }
 
 void _increase_capacity(ArrayList *list) {
-    list->capacity = list->capacity * 2;
+    list->capacity = (list->capacity * 2) + 2;
     void *new_elements[list->capacity];
     for (int i = 0; i < list->count; i ++)
         new_elements[i] = list->elements[i];
@@ -68,7 +70,7 @@ void _add_element_index(ArrayList *list, void *element, size_t index) {
 }
 
 void array_list_push_index(ArrayList *list, void *element, size_t index) {
-    if (_is_full(list) || index > list->capacity)
+    if (_is_full(list) || index >= list->capacity)
         _increase_capacity(list);
     if (array_list_is_empty(list) || index == 0)
         _add_element_first_index(list, element, index);
