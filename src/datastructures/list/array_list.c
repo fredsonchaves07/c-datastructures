@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
@@ -32,17 +31,36 @@ bool _is_full(const ArrayList *list) {
 }
 
 void _increase_capacity(ArrayList *list) {
-    list->capacity = (list->capacity * 2) + 2;
-    void *new_elements[list->capacity];
-    for (int i = 0; i < list->count; i ++)
+    size_t new_capacity = (list->capacity * 2) + 3;
+    void *new_elements[new_capacity];
+    for (int i = 0; i <= new_capacity; i ++) {
+        if (list->elements[i] == NULL || i > list->capacity)
+            continue;
         new_elements[i] = list->elements[i];
+    }
+    list->capacity = new_capacity;
+    *list->elements = *new_elements;
+}
+
+void _increase_capacity_index(ArrayList *list, size_t index) {
+    size_t new_capacity;
+    if (index > list->capacity)
+        new_capacity = index + 2;
+    else
+        new_capacity = (list->capacity * 2) + index;
+    void *new_elements[list->capacity];
+    for (int i = 0; i <= new_capacity; i ++) {
+        if (list->elements[i] == NULL || i > list->capacity)
+            continue;
+        new_elements[i] = list->elements[i];
+    }
+    list->capacity = new_capacity;
     *list->elements = *new_elements;
 }
 
 void array_list_push(ArrayList *list, void *element) {
-    if (_is_full(list)){
+    if (_is_full(list))
         _increase_capacity(list);
-    }
     for (int i = list->capacity - 1; i >= 0; i --) {
         if (list->elements[i] != NULL) {
             list->elements[i + 1] = element;
@@ -65,13 +83,15 @@ void _add_element_first_index(ArrayList *list, void *element, size_t index) {
 }
 
 void _add_element_index(ArrayList *list, void *element, size_t index) {
+    if (index > list->capacity)
+        _increase_capacity_index(list, index);
     list->elements[index] = element;
     list->count += 1;
 }
 
 void array_list_push_index(ArrayList *list, void *element, size_t index) {
     if (_is_full(list) || index >= list->capacity)
-        _increase_capacity(list);
+        _increase_capacity_index(list, index);
     if (array_list_is_empty(list) || index == 0)
         _add_element_first_index(list, element, index);
     else {
@@ -134,7 +154,6 @@ char *array_list_to_string(const ArrayList *list) {
     char *array_list_data = calloc(1, list->data_size * sizeof(char *));
     strcat(array_list_data, "[");
     for (int i = 0; i < list->capacity; i++) {
-//        printf("%p\n", list->elements[i]);
         if (list->elements[i] != NULL) {
             if (strlen(array_list_data) > 1)
                 strcat(array_list_data, ", ");
@@ -145,17 +164,15 @@ char *array_list_to_string(const ArrayList *list) {
 }
 
 void array_list_clear(ArrayList *list) {
-    for (int i = 0; i < list->count; i ++) {
-        list->elements[i] = NULL;
-    }
+    *list->elements = NULL;
     list->count = 0;
     list->capacity = 0;
     list->data_size = 0;
 }
 
-void array_list_free(ArrayList *list) {
-    array_list_clear(list);
-    *list->elements = NULL;
-    free(list);
+void array_list_free(ArrayList **list) {
+    ArrayList *list_ref = *list;
+    array_list_clear(*list);
+    free(list_ref);
     list = NULL;
 }

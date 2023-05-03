@@ -32,6 +32,6 @@ char *array_list_to_string(const ArrayList *list);
 
 void array_list_clear(ArrayList *list);
 
-void array_list_free(ArrayList *list);
+void array_list_free(ArrayList **list);
 
 #endif
