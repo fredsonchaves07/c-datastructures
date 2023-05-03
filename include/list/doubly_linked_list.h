@@ -30,6 +30,6 @@ char *doubly_linked_list_to_string(const DoublyLinkedList *list);
 
 void doubly_linked_list_clear(DoublyLinkedList *list);
 
-void doubly_linked_list_free(DoublyLinkedList *list);
+void doubly_linked_list_free(DoublyLinkedList **list);
 
 #endif

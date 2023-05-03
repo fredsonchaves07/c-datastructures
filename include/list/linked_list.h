@@ -30,6 +30,6 @@ char *linked_list_to_string(const LinkedList *list);
 
 void linked_list_clear(LinkedList *list);
 
-void linked_list_free(LinkedList *list);
+void linked_list_free(LinkedList **list);
 
 # endif

@@ -21,7 +21,7 @@ void test_get_string_doubly_linked_list() {
     DoublyLinkedList *list = create_doubly_linked_list();
     printf("%s\n", doubly_linked_list_to_string(list));
     TEST_ASSERT_EQUAL_STRING(expected, doubly_linked_list_to_string(list));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_insert_element_index() {
@@ -33,7 +33,7 @@ void test_doubly_insert_element_index() {
     doubly_linked_list_push_index(list, (char *) "C++", 2);
     TEST_ASSERT_EQUAL(4, doubly_linked_list_length(list));
     TEST_ASSERT_EQUAL_STRING(expected, doubly_linked_list_to_string(list));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_insert_element_first_last_and_index() {
@@ -45,7 +45,7 @@ void test_doubly_insert_element_first_last_and_index() {
     doubly_linked_list_push_index(list, (char *) "C++", 2);
     TEST_ASSERT_EQUAL(3, doubly_linked_list_length(list));
     TEST_ASSERT_EQUAL_STRING(expected, doubly_linked_list_to_string(list));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_insert_element_first_index_and_last() {
@@ -58,26 +58,26 @@ void test_doubly_insert_element_first_index_and_last() {
     doubly_linked_list_push_index(list, (char *) "Delphi", 1);
     TEST_ASSERT_EQUAL(5, doubly_linked_list_length(list));
     TEST_ASSERT_EQUAL_STRING(expected, doubly_linked_list_to_string(list));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_should_create_doubly_list_empty() {
     DoublyLinkedList *list = doubly_linked_list_create(sizeof(char *));
     TEST_ASSERT_TRUE(doubly_linked_list_is_empty(list));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_get_element() {
     DoublyLinkedList *list = create_doubly_linked_list();
     TEST_ASSERT_NOT_NULL(doubly_linked_list_get_element(list, (char *) "Python"));
     TEST_ASSERT_EQUAL("Python", doubly_linked_list_get_element(list, (char *) "Python"));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_get_null_if_element_not_exist() {
     DoublyLinkedList *list = create_doubly_linked_list();
     TEST_ASSERT_NULL(doubly_linked_list_get_element(list, (char * ) "Delphi"));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_should_remove_element() {
@@ -85,14 +85,14 @@ void test_doubly_should_remove_element() {
     doubly_linked_list_remove(list, (char *) "Python");
     TEST_ASSERT_EQUAL(2, doubly_linked_list_length(list));
     TEST_ASSERT_NULL(doubly_linked_list_get_element(list, (char * ) "Python"));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_not_should_remove_element_if_element_is_not_exist() {
     DoublyLinkedList *list = create_doubly_linked_list();
     doubly_linked_list_remove(list, (char *) "Delphi");
     TEST_ASSERT_EQUAL(3, doubly_linked_list_length(list));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_should_remove_element_at_index() {
@@ -100,7 +100,7 @@ void test_doubly_should_remove_element_at_index() {
     doubly_linked_list_remove_index(list, 1);
     TEST_ASSERT_EQUAL(2, doubly_linked_list_length(list));
     TEST_ASSERT_NULL(doubly_linked_list_get_element(list, (char * ) "Python"));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_should_remove_index_with_append() {
@@ -117,7 +117,7 @@ void test_doubly_should_remove_index_with_append() {
 void test_doubly_should_get_index_element() {
     DoublyLinkedList *list = create_doubly_linked_list();
     TEST_ASSERT_EQUAL(1, doubly_linked_list_index_of(list, (char * ) "Python"));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_should_get_index_element_with_append_last_and_index() {
@@ -134,13 +134,13 @@ void test_doubly_should_get_index_element_with_append_last_and_index() {
 void test_doubly_should_get_element_by_element() {
     DoublyLinkedList *list = create_doubly_linked_list();
     TEST_ASSERT_EQUAL("Python", doubly_linked_list_get_element(list, (char * ) "Python"));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_should_get_element_by_index() {
     DoublyLinkedList *list = create_doubly_linked_list();
     TEST_ASSERT_EQUAL("Python", doubly_linked_list_get_element_index(list, 1));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_should_get_element_by_index_after_insert_with_index_and_without_index() {
@@ -155,7 +155,7 @@ void test_doubly_should_get_element_by_index_after_insert_with_index_and_without
     TEST_ASSERT_EQUAL("Delphi", doubly_linked_list_get_element_index(list, 1));
     TEST_ASSERT_EQUAL("Java", doubly_linked_list_get_element_index(list, 3));
     TEST_ASSERT_EQUAL("Javascript", doubly_linked_list_get_element_index(list, 4));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void test_doubly_should_clear_list() {
@@ -163,7 +163,7 @@ void test_doubly_should_clear_list() {
     doubly_linked_list_clear(list);
     TEST_ASSERT_EQUAL(0, doubly_linked_list_length(list));
     TEST_ASSERT_TRUE(doubly_linked_list_is_empty(list));
-    doubly_linked_list_free(list);
+    doubly_linked_list_free(&list);
 }
 
 void run_test_doubly_linked_list() {

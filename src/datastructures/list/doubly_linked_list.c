@@ -310,12 +310,14 @@ void doubly_linked_list_clear(DoublyLinkedList *list) {
         current_node = next_node;
     }
     list->head = NULL;
+    list->tail = NULL;
     list->data_size = 0;
     list->count = 0;
 }
 
-void doubly_linked_list_free(DoublyLinkedList *list) {
-    doubly_linked_list_clear(list);
-    free(list);
+void doubly_linked_list_free(DoublyLinkedList **list) {
+    DoublyLinkedList *list_ref = *list;
+    doubly_linked_list_clear(*list);
+    free(list_ref);
     list = NULL;
 }

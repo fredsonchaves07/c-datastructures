@@ -310,19 +310,21 @@ void _free_node(Node *node) {
 
 void linked_list_clear(LinkedList *list) {
     Node *current_node = list->head;
+    Node *aux_node = NULL;
     while (current_node != NULL) {
-        Node *next_node = current_node->next_node;
-        current_node->element = NULL;
-        _free_node(current_node);
-        current_node = next_node;
+        aux_node = current_node;
+        current_node = current_node->next_node;
+        free(aux_node);
     }
     list->head = NULL;
+    list->tail = NULL;
     list->data_size = 0;
     list->count = 0;
 }
 
-void linked_list_free(LinkedList *list) {
-    linked_list_clear(list);
-    free(list);
+void linked_list_free(LinkedList **list) {
+    LinkedList *list_ref = *list;
+    linked_list_clear(*list);
+    free(list_ref);
     list = NULL;
 }
