@@ -113,9 +113,9 @@ void array_list_test_get_index_element_with_append_last_and_index() {
     array_list_push_index(list, "Delphi", 13);
     array_list_push_index(list, "C#", 0);
     array_list_push(list, "C++");
-//    TEST_ASSERT_EQUAL(0, array_list_index_of(list, "C#"));
-//    TEST_ASSERT_EQUAL(1, array_list_index_of(list, "Python"));
-//    TEST_ASSERT_EQUAL(2, array_list_index_of(list, "Javascript"));
+    TEST_ASSERT_EQUAL(0, array_list_index_of(list, "C#"));
+    TEST_ASSERT_EQUAL(1, array_list_index_of(list, "Python"));
+    TEST_ASSERT_EQUAL(2, array_list_index_of(list, "Javascript"));
     TEST_ASSERT_EQUAL(13, array_list_index_of(list, "Delphi"));
     TEST_ASSERT_EQUAL(14, array_list_index_of(list, "C++"));
 }
