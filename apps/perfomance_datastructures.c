@@ -6,6 +6,7 @@
 # include <time.h>
 # include "../include/list/linked_list.h"
 # include "../include/list/doubly_linked_list.h"
+# include "../include/list/array_list.h"
 
 int help() {
     printf("\nWelcome to Perfomance datastructure app\n");
@@ -17,7 +18,8 @@ int help() {
     printf("        ./perfomance_datastructure.x linked_list insert 5000: The program will use the linked list data structure with an insert operation of 5000 elements\n\n");
     printf("     DATASTRUCTURE: \n");
     printf("        linked_list: To use the linked list data structure\n");
-    printf("        doubly_linked_list: To use the doubly linked list data structure\n\n");
+    printf("        doubly_linked_list: To use the doubly linked list data structure\n");
+    printf("        array_list: To use array list data structure\n\n");
     printf("     OPERATION: \n");
     printf("        insert: To use element insertion operation \n");
     printf("                ./perfomance_datastructure <datastructure> insert <data size elements> \n\n");
@@ -73,12 +75,20 @@ bool is_doubly_linked_list(char **argv) {
     return strcmp(argv[1], "doubly_linked_list") == 0;
 }
 
+bool is_array_list(char **argv) {
+    return strcmp(argv[1], "array_list") == 0;
+}
+
 LinkedList *create_linked_list() {
     return linked_list_create(sizeof(int *));
 }
 
 DoublyLinkedList *create_doubly_linked_list() {
     return doubly_linked_list_create(sizeof(int *));
+}
+
+ArrayList *create_array_list() {
+    return array_list_create(sizeof(int *));
 }
 
 void insert_linked_list(LinkedList *list, int elements) {
@@ -90,6 +100,10 @@ void insert_linked_list(LinkedList *list, int elements) {
 
 void clear_linked_list(LinkedList *list) {
     linked_list_clear(list);
+}
+
+void clear_array_list(ArrayList *list) {
+    array_list_clear(list);
 }
 
 void clear_doubly_linked_list(DoublyLinkedList *list) {
@@ -144,6 +158,30 @@ void insert_doubly_linked_list_perfomance(char **argv) {
     clear_linked_list(list);
 }
 
+void insert_array_list_perfomance(char **argv) {
+    if (argv[3] == NULL || argv[4] != NULL) invalid_command();
+    int elements = atoi(argv[3]);
+    if (!isdigit(*argv[3]) || elements <= 0) invalid_command();
+    ArrayList *list = create_array_list();
+    FILE *file = create_file("array_list_perfomance_insert.csv");
+    for (int i = 0; i < elements; i ++) {
+        double time_spent = 0.0;
+        int *index = (int *) i;
+        clock_t begin = clock();
+        array_list_push(list, (int *) index);
+        clock_t end = clock();
+        time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+        char index_char[sizeof(elements) + 10000];
+        char time_char[sizeof(elements) + 10000];
+        sprintf(index_char, "%d", i);
+        sprintf(time_char, "%f", time_spent);
+        fflush(file);
+        puts_data(file, "list", "insert", index_char, time_char);
+    }
+    printf("File array_list_perfomance_insert.csv generate in /tmp\n");
+    clear_array_list(list);
+}
+
 void push_element_linked_list(int elements, LinkedList *list) {
     for (int i = 0; i <elements; i++) {
         int *index = (int *) i;
@@ -157,6 +195,14 @@ void push_element_doubly_linked_list(int elements, DoublyLinkedList *list) {
         doubly_linked_list_push(list, (int *) index);
     }
 }
+
+void push_element_array_linked_list(int elements, ArrayList *list) {
+    for (int i = 0; i <elements; i++) {
+        int *index = (int *) i;
+        array_list_push(list, (int *) index);
+    }
+}
+
 
 void get_linked_list_perfomance(char **argv) {
     if (argv[3] == NULL || argv[4] == NULL || argv[5] != NULL) invalid_command();
@@ -204,6 +250,29 @@ void get_doubly_linked_list_perfomance(char **argv) {
     printf("File doubly_linked_list_perfomance_get.csv generate in /tmp\n");
     fclose(file);
     clear_doubly_linked_list(list);
+}
+
+void get_array_list_perfomance(char **argv) {
+    if (argv[3] == NULL || argv[4] == NULL || argv[5] != NULL) invalid_command();
+    int elements = atoi(argv[3]);
+    if (!isdigit(*argv[3]) || elements <= 0) invalid_command();
+    int element = atoi(argv[4]);
+    if (!isdigit(*argv[4]) || element < 0 || element > elements) invalid_command();
+    ArrayList *list = create_array_list();
+    push_element_array_linked_list(elements, list);
+    FILE *file = create_file("array_list_perfomance_get.csv");
+    double time_spent = 0.0;
+    clock_t begin = clock();
+    array_list_get_element(list, (int *) element);
+    clock_t end = clock();
+    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+    char index_char[sizeof(elements) + 10000];
+    char time_char[sizeof(elements) + 10000];
+    sprintf(index_char, "%d", element);
+    sprintf(time_char, "%f", time_spent);
+    puts_data(file, "array_list", "get", index_char, time_char);
+    printf("File array_list_perfomance_get.csv generate in /tmp\n");
+    clear_array_list(list);
 }
 
 void remove_linked_list_perfomance(char **argv) {
@@ -254,6 +323,30 @@ void remove_doubly_linked_list_perfomance(char **argv) {
     clear_doubly_linked_list(list);
 }
 
+void remove_array_list_perfomance(char **argv) {
+    if (argv[3] == NULL || argv[4] == NULL || argv[5] != NULL) invalid_command();
+    int elements = atoi(argv[3]);
+    if (!isdigit(*argv[3]) || elements <= 0) invalid_command();
+    int element = atoi(argv[4]);
+    if (!isdigit(*argv[4]) || element < 0 || element > elements) invalid_command();
+    ArrayList *list = create_array_list();
+    push_element_array_linked_list(elements, list);
+    FILE *file = create_file("array_list_perfomance_remove.csv");
+    double time_spent = 0.0;
+    clock_t begin = clock();
+    array_list_remove(list, (int *) element);
+    clock_t end = clock();
+    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+    char index_char[sizeof(elements) + 10000];
+    char time_char[sizeof(elements) + 10000];
+    sprintf(index_char, "%d", element);
+    sprintf(time_char, "%f", time_spent);
+    puts_data(file, "array_list", "remove", index_char, time_char);
+    printf("File array_list_perfomance_remove.csv generate in /tmp\n");
+    fclose(file);
+    clear_array_list(list);
+}
+
 int linked_list(char **argv) {
     if (argv[2] == NULL || argv[3] == NULL) invalid_command();
     if (!isdigit(*argv[3]) || atoi(argv[3]) <= 0) invalid_command();
@@ -272,10 +365,20 @@ int doubly_linked_list(char **argv) {
     return 0;
 }
 
+int array_list(char **argv) {
+    if (argv[2] == NULL || argv[3] == NULL) invalid_command();
+    if (!isdigit(*argv[3]) || atoi(argv[3]) <= 0) invalid_command();
+    if (strcmp(argv[2], "insert") == 0) insert_array_list_perfomance(argv);
+    if (strcmp(argv[2], "get") == 0) get_array_list_perfomance(argv);
+    if (strcmp(argv[2], "remove") == 0) remove_array_list_perfomance(argv);
+    return 0;
+}
+
 int main(int argc, char **argv) {
     if (argc <= 1 || argc > 6) invalid_command();
     if (is_help(argv)) return help();
     if (is_linked_list(argv)) return linked_list(argv);
     if (is_doubly_linked_list(argv)) return doubly_linked_list(argv);
+    if (is_array_list(argv))return array_list(argv);
     invalid_command();
 }
