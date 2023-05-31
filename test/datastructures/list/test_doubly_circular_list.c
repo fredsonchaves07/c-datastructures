@@ -11,7 +11,7 @@ void doubly_circular_list_test_create_list() {
     doubly_circular_list_push(list, (char *) "Javascript");
     TEST_ASSERT_EQUAL(3, doubly_circular_list_length(list));
     TEST_ASSERT_EQUAL_STRING(expected, doubly_circular_list_to_string(list));
-//    array_list_free(&list);
+    doubly_circular_list_free(&list);
 }
 
 void run_test_doubly_circular_list() {

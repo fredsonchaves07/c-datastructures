@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "../../../include/list/doubly_circular_list.h"
 
 typedef struct _doubly_circular_node {
@@ -27,7 +28,8 @@ DoublyCircularList *doubly_circular_list_create(size_t data_size) {
 
 DoublyCircularNode *_create_doubly_node_circular_list(size_t size, void *element) {
     DoublyCircularNode *node = calloc(1, sizeof(DoublyCircularNode));
-    node->next_node = NULL;
+    node->next_node = node;
+    node->prev_node = node;
     node->element = malloc(size * sizeof(element));
     node->element = element;
     node ->index = 0;
@@ -121,4 +123,31 @@ char *doubly_circular_list_to_string(const DoublyCircularList *list) {
         if (current_node == list->head) break;
     }
     return strcat(doubly_circular_list_data, "]");
+}
+
+void _free_circular_doubly_node(DoublyCircularNode **node_ref) {
+    DoublyCircularNode *node = *node_ref;
+    free(node);
+    *node_ref = NULL;
+}
+
+void circular_doubly_list_clear(DoublyCircularList *list) {
+    DoublyCircularNode *current_node = list->head;
+    while (current_node->next_node != list->head) {
+        DoublyCircularNode *next_node = current_node->next_node;
+        current_node->element = NULL;
+        _free_circular_doubly_node(&current_node);
+        current_node = next_node;
+    }
+    list->head = NULL;
+    list->tail = NULL;
+    list->data_size = 0;
+    list->count = 0;
+}
+
+void doubly_circular_list_free(DoublyCircularList **list) {
+    DoublyCircularList *list_ref = *list;
+    circular_doubly_list_clear(*list);
+    free(list_ref);
+    list = NULL;
 }

@@ -16,4 +16,8 @@ bool doubly_circular_list_is_empty(const DoublyCircularList *list);
 
 char *doubly_circular_list_to_string(const DoublyCircularList *list);
 
+void circular_doubly_list_clear(DoublyCircularList *list);
+
+void doubly_circular_list_free(DoublyCircularList **list);
+
 #endif
