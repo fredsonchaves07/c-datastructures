@@ -100,6 +100,134 @@ void doubly_circular_list_push(DoublyCircularList *list, void *element) {
     }
 }
 
+void _add_element_first_circular_doubly_node(DoublyCircularList *list, void *element, size_t index) {
+    DoublyCircularNode *node = _create_doubly_node_circular_list(list->data_size, element);
+    _add_index_head_circular_doubly_node(node, index);
+    if (!_circular_doubly_node_head_index_is_0(list)) {
+        node->next_node = list->head;
+        list->head->prev_node = node;
+        list->count ++;
+    } else if (!doubly_circular_list_is_empty(list) && _circular_doubly_node_head_index_is_0(list)) {
+        node->next_node = list->head->next_node;
+        list->head->next_node->prev_node = node;
+    }
+    if (_circular_doubly_tail_is_null(list) || _circular_doubly_node_tail_index_is_0(list)) {
+        list->count ++;
+        list->tail = node;
+    }
+    list->head = node;
+    if (list->tail->next_node != list->head) {
+        list->tail->next_node = list->head;
+    }
+    if (list->head->prev_node != list->tail) {
+        list->head->prev_node = list->tail;
+    }
+}
+
+void _add_element_last_circular_doubly_node(DoublyCircularList *list, void *element, size_t index) {
+    DoublyCircularNode *node = _create_doubly_node_circular_list(list->data_size, element);
+    DoublyCircularNode *current_node = list->tail;
+    current_node->next_node = node;
+    node->prev_node = current_node;
+    if (index == 0)
+        node->index = current_node->index + 1;
+    else
+        node->index = index;
+    list->tail = node;
+    list->count ++;
+    if (list->tail->next_node != list->head) {
+        list->tail->next_node = list->head;
+    }
+    if (list->head->prev_node != list->tail)  {
+        list->head->prev_node = list->tail;
+    }
+}
+
+void _add_element_index_circular_doubly_node(DoublyCircularList *list, void *element, int index) {
+    DoublyCircularNode *node = _create_doubly_node_circular_list(list->data_size, element);
+    DoublyCircularNode *tail_node = list->tail;
+    node->index = index;
+    if (doubly_circular_list_is_empty(list)) {
+        list->head = node;
+        list->tail = node;
+    } else if (index == tail_node->index) {
+        DoublyCircularNode *before_node = tail_node->prev_node;
+        before_node->next_node = node;
+        node->prev_node = before_node;
+        list->tail = node;
+    } else {
+        DoublyCircularNode *current_node = list->head;
+        while (current_node != NULL) {
+            if (index == current_node->index) {
+                DoublyCircularNode *before_node = current_node->prev_node;
+                before_node->next_node = node;
+                node->prev_node = before_node;
+                node->next_node = current_node->next_node;
+                current_node->next_node->prev_node = node;
+                break;
+            } else if (index < current_node->index) {
+                DoublyCircularNode *before_node = current_node->prev_node;
+                before_node->next_node = node;
+                node->prev_node = before_node;
+                node->next_node = current_node;
+                current_node->prev_node = node;
+                break;
+            }
+            current_node = current_node->next_node;
+        }
+    }
+    list->count ++;
+}
+
+void doubly_circular_list_push_index(DoublyCircularList *list, void *element, size_t index) {
+    if (index == 0 || (list->head != NULL && index < list->head->index))
+        _add_element_first_circular_doubly_node(list, element, index);
+    else if (list->tail != NULL && index > list->tail->index)
+        _add_element_last_circular_doubly_node(list, element, index);
+    else
+        _add_element_index_circular_doubly_node(list, element, index);
+}
+
+void *_get_element_last_circular_doubly_node(const DoublyCircularList *list) {
+    return list->tail->element;
+}
+
+void *_get_element_first_circular_doubly_node(const DoublyCircularList *list) {
+    return list->head->element;
+}
+
+void *_get_element_index_circular_doubly_node(const DoublyCircularList *list, size_t index) {
+    DoublyCircularNode *current_node = list->head;
+    while (current_node != NULL) {
+        if (index == current_node->index)
+            return current_node->element;
+        current_node = current_node->next_node;
+    }
+    return NULL;
+}
+
+void *_get_element_circular_doubly_node(const DoublyCircularList *list, void *element) {
+    DoublyCircularNode *current_node = list->head;
+    while (current_node != NULL) {
+        if (current_node->next_node == list->head) {
+            break;
+        }
+        if (current_node->element == element)
+            return current_node->element;
+        current_node = current_node->next_node;
+    }
+    return NULL;
+}
+
+void *doubly_circular_list_get_element(const DoublyCircularList *list, void *element) {
+    if (list->head->element == element)
+        return _get_element_first_circular_doubly_node(list);
+    else if (list->tail->element == element)
+        return _get_element_last_circular_doubly_node(list);
+    else
+        return _get_element_circular_doubly_node(list, element);
+}
+
 int doubly_circular_list_length(const DoublyCircularList *list) {
     return list->count;
 }
@@ -109,7 +237,6 @@ bool doubly_circular_list_is_empty(const DoublyCircularList *list) {
 }
 
 char *doubly_circular_list_to_string(const DoublyCircularList *list) {
-
     if (doubly_circular_list_is_empty(list))
         return "[]";
     char *doubly_circular_list_data = calloc(1, list->data_size * sizeof(char *));

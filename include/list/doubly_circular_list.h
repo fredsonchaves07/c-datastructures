@@ -10,6 +10,10 @@ DoublyCircularList *doubly_circular_list_create(size_t data_size);
 
 void doubly_circular_list_push(DoublyCircularList *list, void *element);
 
+void doubly_circular_list_push_index(DoublyCircularList *list, void *element, size_t index);
+
+void *doubly_circular_list_get_element(const DoublyCircularList *list, void *element);
+
 int doubly_circular_list_length(const DoublyCircularList *list);
 
 bool doubly_circular_list_is_empty(const DoublyCircularList *list);
