@@ -14,6 +14,14 @@ void doubly_circular_list_push_index(DoublyCircularList *list, void *element, si
 
 void *doubly_circular_list_get_element(const DoublyCircularList *list, void *element);
 
+void *doubly_circular_list_get_element_index(const DoublyCircularList *list, size_t index);
+
+void doubly_circular_list_remove(DoublyCircularList *list, void *element);
+
+void doubly_circular_list_remove_index(DoublyCircularList *list, size_t index);
+
+int circular_doubly_list_index_of(const DoublyCircularList *list, void *element);
+
 int doubly_circular_list_length(const DoublyCircularList *list);
 
 bool doubly_circular_list_is_empty(const DoublyCircularList *list);
