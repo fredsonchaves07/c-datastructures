@@ -57,6 +57,25 @@ void array_stack_push(ArrayStack *list, void *element) {
     list->count += 1;
 }
 
+void array_stack_remove(ArrayStack *stack, void *element) {
+    for (int i = 0; i < stack->count; i ++) {
+        if (*stack->elements != NULL && stack->elements[i] == element) {
+            stack->elements[i] = NULL;
+            stack->count -= 1;
+        }
+    }
+}
+
+void *array_stack_pop(ArrayStack *stack) {
+    void *element = stack->elements[array_stack_length(stack) - 1];
+    stack->count -= 1;
+    return element;
+}
+
+void *array_stack_peek(ArrayStack *stack) {
+    return stack->elements[array_stack_length(stack) - 1];
+}
+
 void _array_stack_increase_capacity_index(ArrayStack *list, size_t index) {
     size_t new_capacity;
     if (index > list->capacity)
@@ -103,7 +122,11 @@ bool array_stack_is_empty(const ArrayStack *list) {
     return list->count == 0;
 }
 
-char *array_list_to_string(const ArrayStack *list) {
+size_t array_stack_length(const ArrayStack *list) {
+    return list->count;
+}
+
+char *array_stack_to_string(const ArrayStack *list) {
     if (array_stack_is_empty(list))
         return "[]";
     char *array_list_data = calloc(1, list->data_size * sizeof(char *));

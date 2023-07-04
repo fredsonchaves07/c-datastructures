@@ -20,7 +20,8 @@ libed: \
 	$(OBJ)/linked_list.o \
 	$(OBJ)/doubly_linked_list.o \
 	$(OBJ)/array_list.o \
-	$(OBJ)/doubly_circular_list.o
+	$(OBJ)/doubly_circular_list.o \
+	$(OBJ)/array_stack.o
 	ar -rcs $(LIB)/libed.a $(OBJ)/*.o
 
 myapps: clean_apps \
