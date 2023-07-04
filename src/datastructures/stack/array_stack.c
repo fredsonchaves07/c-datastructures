@@ -67,7 +67,8 @@ void array_stack_remove(ArrayStack *stack, void *element) {
 }
 
 void *array_stack_pop(ArrayStack *stack) {
-    void *element = stack->elements[array_stack_length(stack) - 1];
+    if (array_stack_is_empty(stack)) return NULL;
+    void *element = stack->elements[array_stack_length(stack)];
     stack->count -= 1;
     return element;
 }
