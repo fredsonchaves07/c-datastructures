@@ -57,18 +57,9 @@ void array_stack_push(ArrayStack *list, void *element) {
     list->count += 1;
 }
 
-void array_stack_remove(ArrayStack *stack, void *element) {
-    for (int i = 0; i < stack->count; i ++) {
-        if (*stack->elements != NULL && stack->elements[i] == element) {
-            stack->elements[i] = NULL;
-            stack->count -= 1;
-        }
-    }
-}
-
 void *array_stack_pop(ArrayStack *stack) {
     if (array_stack_is_empty(stack)) return NULL;
-    void *element = stack->elements[array_stack_length(stack)];
+    void *element = stack->elements[array_stack_length(stack) - 1];
     stack->count -= 1;
     return element;
 }

@@ -40,13 +40,6 @@ void array_stack_test_create_list_empty() {
     array_stack_free(&stack);
 }
 
-void array_stack_test_remove_element() {
-    ArrayStack *stack = create_array_stack();
-    array_stack_remove(stack, (char *) "Python");
-    TEST_ASSERT_EQUAL(2, array_stack_length(stack));
-    array_stack_free(&stack);
-}
-
 void array_stack_test_pop_element() {
     ArrayStack *stack = create_array_stack();
     TEST_ASSERT_EQUAL("Javascript", array_stack_pop(stack));
@@ -71,7 +64,6 @@ void run_test_array_stack() {
     RUN_TEST(array_stack_test_create_stack);
     RUN_TEST(array_stack_test_create_list_with_capacity);
     RUN_TEST(array_stack_test_create_list_empty);
-    RUN_TEST(array_stack_test_remove_element);
     RUN_TEST(array_stack_test_pop_element);
     RUN_TEST(array_stack_test_peek_element);
     RUN_TEST(array_stack_test_clear_stack);

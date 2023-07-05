@@ -12,8 +12,6 @@ ArrayStack *array_stack_create_capacity(size_t data_size, size_t capacity);
 
 void array_stack_push(ArrayStack *stack, void *element);
 
-void array_stack_remove(ArrayStack *stack, void *element);
-
 void *array_stack_pop(ArrayStack *stack);
 
 void *array_stack_peek(ArrayStack *stack);
