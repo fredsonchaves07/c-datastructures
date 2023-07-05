@@ -388,6 +388,26 @@ void get_circular_list_perfomance(char **argv) {
     clear_circular_list(list);
 }
 
+void get_array_stack_perfomance(char **argv) {
+    if (argv[3] == NULL) invalid_command();
+    int elements = atoi(argv[3]);
+    ArrayStack *stack = create_array_stack();
+    push_element_array_stack(elements, stack);
+    FILE *file = create_file("array_stack_perfomance_get.csv");
+    double time_spent = 0.0;
+    clock_t begin = clock();
+    void* element = array_stack_peek(stack);
+    clock_t end = clock();
+    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+    char index_char[sizeof(elements) + 10000];
+    char time_char[sizeof(elements) + 10000];
+    sprintf(index_char, "%d", element);
+    sprintf(time_char, "%f", time_spent);
+    puts_data(file, "array_stack", "get", index_char, time_char);
+    printf("File array_stack_perfomance_get.csv generate in /tmp\n");
+    clear_array_stack(stack);
+}
+
 void remove_linked_list_perfomance(char **argv) {
     if (argv[3] == NULL || argv[4] == NULL || argv[5] != NULL) invalid_command();
     int elements = atoi(argv[3]);
@@ -498,7 +518,7 @@ void remove_array_stack_perfomance(char **argv) {
     time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
     char index_char[sizeof(elements) + 10000];
     char time_char[sizeof(elements) + 10000];
-    sprintf(index_char, "%d", element);
+    sprintf(index_char, "%d", (int*) element);
     sprintf(time_char, "%f", time_spent);
     puts_data(file, "array_stack", "remove", index_char, time_char);
     printf("File array-stack_perfomance_remove.csv generate in /tmp\n");
@@ -546,6 +566,7 @@ int array_stack(char **argv) {
     if (argv[2] == NULL || argv[3] == NULL) invalid_command();
     if (!isdigit(*argv[3]) || atoi(argv[3]) <= 0) invalid_command();
     if (strcmp(argv[2], "insert") == 0) insert_array_stack_perfomance(argv);
+    if (strcmp(argv[2], "get") == 0) get_array_stack_perfomance(argv);
     if (strcmp(argv[2], "remove") == 0) remove_array_stack_perfomance(argv);
     return 0;
 }
