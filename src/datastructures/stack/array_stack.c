@@ -65,6 +65,7 @@ void *array_stack_pop(ArrayStack *stack) {
 }
 
 void *array_stack_peek(ArrayStack *stack) {
+    if (array_stack_is_empty(stack)) return NULL;
     return stack->elements[array_stack_length(stack) - 1];
 }
 

@@ -44,12 +44,14 @@ void array_stack_test_pop_element() {
     ArrayStack *stack = create_array_stack();
     TEST_ASSERT_EQUAL("Javascript", array_stack_pop(stack));
     TEST_ASSERT_EQUAL(2, array_stack_length(stack));
+    array_stack_free(&stack);
 }
 
 void array_stack_test_peek_element() {
     ArrayStack *stack = create_array_stack();
     TEST_ASSERT_EQUAL("Javascript", array_stack_peek(stack));
     TEST_ASSERT_EQUAL(3, array_stack_length(stack));
+    array_stack_free(&stack);
 }
 
 void array_stack_test_clear_stack() {
