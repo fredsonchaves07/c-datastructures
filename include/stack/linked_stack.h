@@ -14,14 +14,14 @@ void *linked_stack_pop(LinkedStack *stack);
 
 void *linked_stack_peek(LinkedStack *stack);
 
-bool linked_stack_is_empty(const LinkedStack *list);
+bool linked_stack_is_empty(const LinkedStack *stack);
 
 size_t linked_stack_length(const LinkedStack *stack);
 
 char *linked_stack_to_string(const LinkedStack *stack);
 
-void linked_stack_free(LinkedStack **list);
+void linked_stack_free(LinkedStack **stack);
 
-void linked_stack_clear(LinkedStack *list);
+void linked_stack_clear(LinkedStack *stack);
 
 #endif
