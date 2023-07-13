@@ -9,6 +9,7 @@
 # include "../include/list/array_list.h"
 # include "../include/list/doubly_circular_list.h"
 # include "../include/stack/array_stack.h"
+# include "../include/stack/linked_stack.h"
 
 int help() {
     printf("\nWelcome to Perfomance datastructure app\n");
@@ -23,7 +24,8 @@ int help() {
     printf("        doubly_linked_list: To use the doubly linked list data structure\n");
     printf("        array_list: To use array list data structure\n");
     printf("        circular_list: To use circular list data structure\n");
-    printf("        array_stack: To use array stack data structure\n\n");
+    printf("        array_stack: To use array stack data structure\n");
+    printf("        linked_stack: To use linked stack data structure\n\n");
     printf("     OPERATION: \n");
     printf("        insert: To use element insertion operation \n");
     printf("                ./perfomance_datastructure <datastructure> insert <data size elements> \n\n");
@@ -91,6 +93,10 @@ bool is_array_stack(char **argv) {
     return strcmp(argv[1], "array_stack") == 0;
 }
 
+bool is_linked_stack(char **argv) {
+    return strcmp(argv[1], "linked_stack") == 0;
+}
+
 LinkedList *create_linked_list() {
     return linked_list_create(sizeof(int *));
 }
@@ -109,6 +115,10 @@ DoublyCircularList *create_circular_list() {
 
 ArrayStack *create_array_stack() {
     return array_stack_create(sizeof(int *));
+}
+
+LinkedStack *create_linked_stack() {
+    return linked_stack_create(sizeof(int *));
 }
 
 void insert_linked_list(LinkedList *list, int elements) {
@@ -136,6 +146,10 @@ void clear_doubly_linked_list(DoublyLinkedList *list) {
 
 void clear_array_stack(ArrayStack *stack) {
     array_stack_clear(stack);
+}
+
+void clear_linked_stack(LinkedStack *stack) {
+    linked_stack_clear(stack);
 }
 
 void insert_linked_list_perfomance(char **argv) {
@@ -239,7 +253,7 @@ void insert_array_stack_perfomance(char **argv) {
     int elements = atoi(argv[3]);
     if (!isdigit(*argv[3]) || elements <= 0) invalid_command();
     ArrayStack *stack = create_array_stack();
-    FILE *file = create_file("array_stack_insert.csv");
+    FILE *file = create_file("array_stack_perfomance_insert.csv");
     for (int i = 0; i < elements; i ++) {
         double time_spent = 0.0;
         int *index = (int *) i;
@@ -254,8 +268,32 @@ void insert_array_stack_perfomance(char **argv) {
         fflush(file);
         puts_data(file, "list", "insert", index_char, time_char);
     }
-    printf("File array_list_perfomance_insert.csv generate in /tmp\n");
+    printf("File array_stack_perfomance_insert.csv generate in /tmp\n");
     clear_array_stack(stack);
+}
+
+void insert_linked_stack_perfomance(char **argv) {
+    if (argv[3] == NULL || argv[4] != NULL) invalid_command();
+    int elements = atoi(argv[3]);
+    if (!isdigit(*argv[3]) || elements <= 0) invalid_command();
+    LinkedStack *stack = create_linked_stack();
+    FILE *file = create_file("linked_stack_perfomance_insert.csv");
+    for (int i = 0; i < elements; i ++) {
+        double time_spent = 0.0;
+        int *index = (int *) i;
+        clock_t begin = clock();
+        linked_stack_push(stack, (int *) index);
+        clock_t end = clock();
+        time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+        char index_char[sizeof(elements) + 10000];
+        char time_char[sizeof(elements) + 10000];
+        sprintf(index_char, "%d", i);
+        sprintf(time_char, "%f", time_spent);
+        fflush(file);
+        puts_data(file, "list", "insert", index_char, time_char);
+    }
+    printf("File linked_stack_perfomance_insert.csv generate in /tmp\n");
+    clear_linked_stack(stack);
 }
 
 void push_element_linked_list(int elements, LinkedList *list) {
@@ -290,6 +328,13 @@ void push_element_array_stack(int elements, ArrayStack *stack) {
     for (int i = 0; i <=elements; i++) {
         int *index = (int *) i;
         array_list_push(stack, (int *) index);
+    }
+}
+
+void push_element_linked_stack(int elements, LinkedStack *stack) {
+    for (int i = 0; i <=elements; i++) {
+        int *index = (int *) i;
+        linked_list_push(stack, (int *) index);
     }
 }
 
@@ -406,6 +451,26 @@ void get_array_stack_perfomance(char **argv) {
     puts_data(file, "array_stack", "get", index_char, time_char);
     printf("File array_stack_perfomance_get.csv generate in /tmp\n");
     clear_array_stack(stack);
+}
+
+void get_linked_stack_perfomance(char **argv) {
+    if (argv[3] == NULL) invalid_command();
+    int elements = atoi(argv[3]);
+    LinkedStack *stack = create_linked_stack();
+    push_element_linked_stack(elements, stack);
+    FILE *file = create_file("linked_stack_perfomance_get.csv");
+    double time_spent = 0.0;
+    clock_t begin = clock();
+    void* element = linked_stack_peek(stack);
+    clock_t end = clock();
+    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+    char index_char[sizeof(elements) + 10000];
+    char time_char[sizeof(elements) + 10000];
+    sprintf(index_char, "%d", element);
+    sprintf(time_char, "%f", time_spent);
+    puts_data(file, "linked_stack", "get", index_char, time_char);
+    printf("File linked_stack_perfomance_get.csv generate in /tmp\n");
+    clear_linked_stack(stack);
 }
 
 void remove_linked_list_perfomance(char **argv) {
@@ -526,6 +591,28 @@ void remove_array_stack_perfomance(char **argv) {
     clear_array_stack(stack);
 }
 
+void remove_linked_stack_perfomance(char **argv) {
+    if (argv[3] == NULL) invalid_command();
+    int elements = atoi(argv[3]);
+    if (!isdigit(*argv[3]) || elements <= 0) invalid_command();
+    LinkedStack *stack = create_linked_stack();
+    push_element_linked_stack(elements, stack);
+    FILE *file = create_file("linked_stack_perfomance_remove.csv");
+    double time_spent = 0.0;
+    clock_t begin = clock();
+    void *element = linked_stack_pop(stack);
+    clock_t end = clock();
+    time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+    char index_char[sizeof(elements) + 10000];
+    char time_char[sizeof(elements) + 10000];
+    sprintf(index_char, "%d", (int*) element);
+    sprintf(time_char, "%f", time_spent);
+    puts_data(file, "linked_stack", "remove", index_char, time_char);
+    printf("File linked-stack_perfomance_remove.csv generate in /tmp\n");
+    fclose(file);
+    clear_linked_stack(stack);
+}
+
 int linked_list(char **argv) {
     if (argv[2] == NULL || argv[3] == NULL) invalid_command();
     if (!isdigit(*argv[3]) || atoi(argv[3]) <= 0) invalid_command();
@@ -571,13 +658,23 @@ int array_stack(char **argv) {
     return 0;
 }
 
+int linked_stack(char **argv) {
+    if (argv[2] == NULL || argv[3] == NULL) invalid_command();
+    if (!isdigit(*argv[3]) || atoi(argv[3]) <= 0) invalid_command();
+    if (strcmp(argv[2], "insert") == 0) insert_linked_stack_perfomance(argv);
+    if (strcmp(argv[2], "get") == 0) get_linked_stack_perfomance(argv);
+    if (strcmp(argv[2], "remove") == 0) remove_linked_stack_perfomance(argv);
+    return 0;
+}
+
 int main(int argc, char **argv) {
     if (argc <= 1 || argc > 6) invalid_command();
     if (is_help(argv)) return help();
     if (is_linked_list(argv)) return linked_list(argv);
     if (is_doubly_linked_list(argv)) return doubly_linked_list(argv);
-    if (is_array_list(argv))return array_list(argv);
-    if (is_circular_list(argv))return circular_list(argv);
-    if (is_array_stack(argv))return array_stack(argv);
+    if (is_array_list(argv)) return array_list(argv);
+    if (is_circular_list(argv)) return circular_list(argv);
+    if (is_array_stack(argv)) return array_stack(argv);
+    if (is_linked_stack(argv)) return linked_stack(argv);
     invalid_command();
 }
