@@ -55,6 +55,7 @@ void *linked_stack_pop(LinkedStack *stack) {
     if (linked_stack_is_empty(stack)) return NULL;
     void *element = stack->tail->element;
     stack->tail = _get_before_stack_node(stack, stack->tail);
+    stack->tail->next_node = NULL;
     stack->count --;
     return element;
 }
