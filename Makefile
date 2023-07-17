@@ -22,7 +22,8 @@ libed: \
 	$(OBJ)/array_list.o \
 	$(OBJ)/doubly_circular_list.o \
 	$(OBJ)/array_stack.o \
-	$(OBJ)/linked_stack.o
+	$(OBJ)/linked_stack.o \
+	$(OBJ)/array_deque.o
 	ar -rcs $(LIB)/libed.a $(OBJ)/*.o
 
 myapps: clean_apps \
