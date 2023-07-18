@@ -14,6 +14,7 @@ ArrayStack *array_stack_create(size_t data_size) {
     ArrayStack *arrayStack = calloc(1, sizeof(ArrayStack));
     arrayStack->data_size = data_size;
     arrayStack->capacity = 10;
+    arrayStack->count = 0;
     return arrayStack;
 }
 
@@ -60,6 +61,7 @@ void array_stack_push(ArrayStack *stack, void *element) {
 void *array_stack_pop(ArrayStack *stack) {
     if (array_stack_is_empty(stack)) return NULL;
     void *element = stack->elements[array_stack_length(stack) - 1];
+    stack->elements[array_stack_length(stack) - 1] = NULL;
     stack->count -= 1;
     return element;
 }
@@ -67,48 +69,6 @@ void *array_stack_pop(ArrayStack *stack) {
 void *array_stack_peek(ArrayStack *stack) {
     if (array_stack_is_empty(stack)) return NULL;
     return stack->elements[array_stack_length(stack) - 1];
-}
-
-void _array_stack_increase_capacity_index(ArrayStack *stack, size_t index) {
-    size_t new_capacity;
-    if (index > stack->capacity)
-        new_capacity = index + 2;
-    else
-        new_capacity = (stack->capacity * 2) + index;
-    void *new_elements[stack->capacity];
-    for (int i = 0; i <= new_capacity; i ++) {
-        if (stack->elements[i] == NULL || i > stack->capacity)
-            continue;
-        new_elements[i] = stack->elements[i];
-    }
-    stack->capacity = new_capacity;
-    *stack->elements = *new_elements;
-}
-
-void _array_stack_add_element_first_index(ArrayStack *stack, void *element, size_t index) {
-    if (array_stack_is_empty(stack) || stack->elements[index] == NULL) {
-        stack->elements[index] = element;
-        stack->count +=1;
-    } else {
-        stack->elements[index] = element;
-    }
-}
-
-void _array_stack_add_element_index(ArrayStack *stack, void *element, size_t index) {
-    if (index > stack->capacity)
-        _array_stack_increase_capacity_index(stack, index);
-    stack->elements[index] = element;
-    stack->count += 1;
-}
-
-void array_stack_push_index(ArrayStack *stack, void *element, size_t index) {
-    if (_array_stack_is_full(stack) || index >= stack->capacity)
-        _array_stack_increase_capacity_index(list, index);
-    if (array_stack_is_empty(stack) || index == 0)
-        _array_stack_add_element_first_index(stack, element, index);
-    else {
-        _array_stack_add_element_index(stack, element, index);
-    }
 }
 
 bool array_stack_is_empty(const ArrayStack *stack) {
