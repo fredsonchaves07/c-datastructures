@@ -6,7 +6,6 @@
 typedef struct _stack_node {
     void *element;
     struct _stack_node *next_node;
-    size_t index;
 } StackNode;
 
 struct _linked_stack {
@@ -18,8 +17,10 @@ struct _linked_stack {
 
 LinkedStack *linked_stack_create(size_t data_size) {
     LinkedStack *stack = calloc(1, sizeof(LinkedStack));
+    stack->head = NULL;
     stack->tail = NULL;
     stack->data_size = data_size;
+    stack->count = 0;
     return stack;
 }
 
@@ -28,7 +29,6 @@ StackNode *_create_stack_node(size_t size, void *element) {
     node->next_node = NULL;
     node->element = malloc(size * sizeof(element));
     node->element = element;
-    node ->index = 0;
     return node;
 }
 
