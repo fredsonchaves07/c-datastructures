@@ -14,4 +14,6 @@ void run_test_array_stack();
 
 void run_test_linked_stack();
 
+void run_test_array_queue();
+
 # endif
