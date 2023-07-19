@@ -42,8 +42,8 @@ void linked_stack_push(LinkedStack *stack, void *element) {
     stack->count ++;
 }
 
-StackNode *_get_before_stack_node(const LinkedStack *list, StackNode *node) {
-    StackNode *current_node = list->head;
+StackNode *_get_before_stack_node(const LinkedStack *stack, StackNode *node) {
+    StackNode *current_node = stack->head;
     while (current_node->next_node != NULL) {
         if (current_node->next_node == node) return current_node;
         current_node = current_node->next_node;
@@ -77,17 +77,17 @@ char *linked_stack_to_string(const LinkedStack *stack) {
     if (linked_stack_is_empty(stack)) {
         return "[]";
     }
-    char *linked_list_data = calloc(1, stack->data_size * sizeof(char *));
-    strcat(linked_list_data, "[");
+    char *linked_stack_data = calloc(1, stack->data_size * sizeof(char *));
+    strcat(linked_stack_data, "[");
     StackNode *current_node = stack->head;
     while (current_node != NULL) {
-        strcat(linked_list_data, (char *) current_node->element);
+        strcat(linked_stack_data, (char *) current_node->element);
         if (current_node->next_node != NULL) {
-            strcat(linked_list_data, ", ");
+            strcat(linked_stack_data, ", ");
         }
         current_node = current_node->next_node;
     }
-    return strcat(linked_list_data, "]");
+    return strcat(linked_stack_data, "]");
 }
 
 void linked_stack_clear(LinkedStack *stack) {
