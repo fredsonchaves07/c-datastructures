@@ -22,7 +22,7 @@ void linked_stack_test_create_stack() {
     linked_stack_free(&stack);
 }
 
-void linked_stack_test_create_list_empty() {
+void linked_stack_test_create_stack_empty() {
     LinkedStack *stack = linked_stack_create(sizeof(char *));
     TEST_ASSERT_EQUAL(0, linked_stack_length(stack));
     TEST_ASSERT_TRUE(linked_stack_is_empty(stack));
@@ -53,7 +53,7 @@ void linked_stack_test_clear_stack() {
 
 void run_test_linked_stack() {
     RUN_TEST(linked_stack_test_create_stack);
-    RUN_TEST(linked_stack_test_create_list_empty);
+    RUN_TEST(linked_stack_test_create_stack_empty);
     RUN_TEST(linked_stack_test_pop_element);
     RUN_TEST(linked_stack_test_peek_element);
     RUN_TEST(linked_stack_test_clear_stack);

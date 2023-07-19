@@ -22,7 +22,7 @@ void array_stack_test_create_stack() {
     array_stack_free(&stack);
 }
 
-void array_stack_test_create_list_with_capacity() {
+void array_stack_test_create_queue_with_capacity() {
     char expected[100] = {"[Java, Python, Javascript]"};
     ArrayStack *stack = array_stack_create_capacity(sizeof(char *), 3);
     array_stack_push(stack, (char *) "Java");
@@ -33,7 +33,7 @@ void array_stack_test_create_list_with_capacity() {
     array_stack_free(&stack);
 }
 
-void array_stack_test_create_list_empty() {
+void array_stack_test_create_queue_empty() {
     ArrayStack *stack = array_stack_create(sizeof(char *));
     TEST_ASSERT_EQUAL(0, array_stack_length(stack));
     TEST_ASSERT_TRUE(array_stack_is_empty(stack));
@@ -64,8 +64,8 @@ void array_stack_test_clear_stack() {
 
 void run_test_array_stack() {
     RUN_TEST(array_stack_test_create_stack);
-    RUN_TEST(array_stack_test_create_list_with_capacity);
-    RUN_TEST(array_stack_test_create_list_empty);
+    RUN_TEST(array_stack_test_create_queue_with_capacity);
+    RUN_TEST(array_stack_test_create_queue_empty);
     RUN_TEST(array_stack_test_pop_element);
     RUN_TEST(array_stack_test_peek_element);
     RUN_TEST(array_stack_test_clear_stack);

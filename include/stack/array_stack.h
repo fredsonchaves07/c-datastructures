@@ -16,14 +16,14 @@ void *array_stack_pop(ArrayStack *stack);
 
 void *array_stack_peek(ArrayStack *stack);
 
-bool array_stack_is_empty(const ArrayStack *list);
+bool array_stack_is_empty(const ArrayStack *stack);
 
 size_t array_stack_length(const ArrayStack *stack);
 
 char *array_stack_to_string(const ArrayStack *stack);
 
-void array_stack_free(ArrayStack **list);
+void array_stack_free(ArrayStack **stack);
 
-void array_stack_clear(ArrayStack *list);
+void array_stack_clear(ArrayStack *stack);
 
 #endif

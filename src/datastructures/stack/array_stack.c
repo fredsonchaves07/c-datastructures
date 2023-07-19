@@ -14,6 +14,7 @@ ArrayStack *array_stack_create(size_t data_size) {
     ArrayStack *arrayStack = calloc(1, sizeof(ArrayStack));
     arrayStack->data_size = data_size;
     arrayStack->capacity = 10;
+    arrayStack->count = 0;
     return arrayStack;
 }
 
@@ -26,40 +27,41 @@ ArrayStack  *array_stack_create_capacity(size_t data_size, size_t capacity) {
     return arrayStack;
 }
 
-bool _array_stack_is_full(const ArrayStack *list) {
-    return list->count >= list->capacity;
+bool _array_stack_is_full(const ArrayStack *stack) {
+    return stack->count >= stack->capacity;
 }
 
-void _array_stack_increase_capacity(ArrayStack *list) {
-    size_t new_capacity = (list->capacity * 2) + 3;
+void _array_stack_increase_capacity(ArrayStack *stack) {
+    size_t new_capacity = (stack->capacity * 2) + 3;
     void *new_elements[new_capacity];
     for (int i = 0; i <= new_capacity; i ++) {
-        if (list->elements[i] == NULL || i > list->capacity)
+        if (stack->elements[i] == NULL || i > stack->capacity)
             continue;
-        new_elements[i] = list->elements[i];
+        new_elements[i] = stack->elements[i];
     }
-    list->capacity = new_capacity;
-    *list->elements = *new_elements;
+    stack->capacity = new_capacity;
+    *stack->elements = *new_elements;
 }
 
-void array_stack_push(ArrayStack *list, void *element) {
-    if (_array_stack_is_full(list))
-        _array_stack_increase_capacity(list);
-    for (int i = list->capacity - 1; i >= 0; i --) {
-        if (list->elements[i] != NULL) {
-            list->elements[i + 1] = element;
+void array_stack_push(ArrayStack *stack, void *element) {
+    if (_array_stack_is_full(stack))
+        _array_stack_increase_capacity(stack);
+    for (int i = stack->capacity - 1; i >= 0; i --) {
+        if (stack->elements[i] != NULL) {
+            stack->elements[i + 1] = element;
             break;
         }
-        if (list->elements[i] == NULL && i == 0) {
-            list->elements[i] = element;
+        if (stack->elements[i] == NULL && i == 0) {
+            stack->elements[i] = element;
         }
     }
-    list->count += 1;
+    stack->count += 1;
 }
 
 void *array_stack_pop(ArrayStack *stack) {
     if (array_stack_is_empty(stack)) return NULL;
     void *element = stack->elements[array_stack_length(stack) - 1];
+    stack->elements[array_stack_length(stack) - 1] = NULL;
     stack->count -= 1;
     return element;
 }
@@ -69,81 +71,39 @@ void *array_stack_peek(ArrayStack *stack) {
     return stack->elements[array_stack_length(stack) - 1];
 }
 
-void _array_stack_increase_capacity_index(ArrayStack *list, size_t index) {
-    size_t new_capacity;
-    if (index > list->capacity)
-        new_capacity = index + 2;
-    else
-        new_capacity = (list->capacity * 2) + index;
-    void *new_elements[list->capacity];
-    for (int i = 0; i <= new_capacity; i ++) {
-        if (list->elements[i] == NULL || i > list->capacity)
-            continue;
-        new_elements[i] = list->elements[i];
-    }
-    list->capacity = new_capacity;
-    *list->elements = *new_elements;
+bool array_stack_is_empty(const ArrayStack *stack) {
+    return stack->count == 0;
 }
 
-void _array_stack_add_element_first_index(ArrayStack *list, void *element, size_t index) {
-    if (array_stack_is_empty(list) || list->elements[index] == NULL) {
-        list->elements[index] = element;
-        list->count +=1;
-    } else {
-        list->elements[index] = element;
-    }
+size_t array_stack_length(const ArrayStack *stack) {
+    return stack->count;
 }
 
-void _array_stack_add_element_index(ArrayStack *list, void *element, size_t index) {
-    if (index > list->capacity)
-        _array_stack_increase_capacity_index(list, index);
-    list->elements[index] = element;
-    list->count += 1;
-}
-
-void array_stack_push_index(ArrayStack *list, void *element, size_t index) {
-    if (_array_stack_is_full(list) || index >= list->capacity)
-        _array_stack_increase_capacity_index(list, index);
-    if (array_stack_is_empty(list) || index == 0)
-        _array_stack_add_element_first_index(list, element, index);
-    else {
-        _array_stack_add_element_index(list, element, index);
-    }
-}
-
-bool array_stack_is_empty(const ArrayStack *list) {
-    return list->count == 0;
-}
-
-size_t array_stack_length(const ArrayStack *list) {
-    return list->count;
-}
-
-char *array_stack_to_string(const ArrayStack *list) {
-    if (array_stack_is_empty(list))
+char *array_stack_to_string(const ArrayStack *stack) {
+    if (array_stack_is_empty(stack))
         return "[]";
-    char *array_list_data = calloc(1, list->data_size * sizeof(char *));
-    strcat(array_list_data, "[");
-    for (int i = 0; i < list->capacity; i++) {
-        if (list->elements[i] != NULL) {
-            if (strlen(array_list_data) > 1)
-                strcat(array_list_data, ", ");
-            strcat(array_list_data, list->elements[i]);
+    char *array_stack_data = calloc(1, stack->data_size * sizeof(char *));
+    strcat(array_stack_data, "[");
+    for (int i = 0; i < stack->capacity; i++) {
+        if (stack->elements[i] != NULL) {
+            if (strlen(array_stack_data) > 1)
+                strcat(array_stack_data, ", ");
+            strcat(array_stack_data, stack->elements[i]);
         }
     }
-    return strcat(array_list_data, (char *) "]");
+    return strcat(array_stack_data, (char *) "]");
 }
 
-void array_stack_clear(ArrayStack *list) {
-    *list->elements = NULL;
-    list->count = 0;
-    list->capacity = 0;
-    list->data_size = 0;
+void array_stack_clear(ArrayStack *stack) {
+    *stack->elements = NULL;
+    stack->count = 0;
+    stack->capacity = 0;
+    stack->data_size = 0;
 }
 
 void array_stack_free(ArrayStack **stack) {
-    ArrayStack *list_ref = *stack;
+    ArrayStack *stack_ref = *stack;
     array_stack_clear(*stack);
-    free(list_ref);
+    free(stack_ref);
     stack = NULL;
 }
