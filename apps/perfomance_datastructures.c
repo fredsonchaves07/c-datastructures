@@ -246,7 +246,7 @@ void insert_array_list_perfomance(char **argv) {
         sprintf(index_char, "%d", i);
         sprintf(time_char, "%f", time_spent);
         fflush(file);
-        puts_data(file, "list", "insert", index_char, time_char);
+        puts_data(file, "array_list", "insert", index_char, time_char);
     }
     printf("File array_list_perfomance_insert.csv generate in /tmp\n");
     clear_array_list(list);
@@ -270,7 +270,7 @@ void insert_circular_list_perfomance(char **argv) {
         sprintf(index_char, "%d", i);
         sprintf(time_char, "%f", time_spent);
         fflush(file);
-        puts_data(file, "list", "insert", index_char, time_char);
+        puts_data(file, "circular_list", "insert", index_char, time_char);
     }
     printf("File circular_list_perfomance_insert.csv generate in /tmp\n");
     clear_circular_list(list);
@@ -294,7 +294,7 @@ void insert_array_stack_perfomance(char **argv) {
         sprintf(index_char, "%d", i);
         sprintf(time_char, "%f", time_spent);
         fflush(file);
-        puts_data(file, "list", "insert", index_char, time_char);
+        puts_data(file, "array_stack", "insert", index_char, time_char);
     }
     printf("File array_stack_perfomance_insert.csv generate in /tmp\n");
     clear_array_stack(stack);
@@ -342,7 +342,7 @@ void insert_linked_stack_perfomance(char **argv) {
         sprintf(index_char, "%d", i);
         sprintf(time_char, "%f", time_spent);
         fflush(file);
-        puts_data(file, "list", "insert", index_char, time_char);
+        puts_data(file, "linked_stack", "insert", index_char, time_char);
     }
     printf("File linked_stack_perfomance_insert.csv generate in /tmp\n");
     clear_linked_stack(stack);
@@ -518,7 +518,7 @@ void get_circular_list_perfomance(char **argv) {
     char time_char[sizeof(elements) + 10000];
     sprintf(index_char, "%d", element);
     sprintf(time_char, "%f", time_spent);
-    puts_data(file, "array_list", "get", index_char, time_char);
+    puts_data(file, "circular_list", "get", index_char, time_char);
     printf("File circular_list_perfomance_get.csv generate in /tmp\n");
     clear_circular_list(list);
 }
@@ -693,7 +693,7 @@ void remove_circular_list_perfomance(char **argv) {
     char time_char[sizeof(elements) + 10000];
     sprintf(index_char, "%d", element);
     sprintf(time_char, "%f", time_spent);
-    puts_data(file, "array_list", "remove", index_char, time_char);
+    puts_data(file, "circular_list", "remove", index_char, time_char);
     printf("File circular_list_perfomance_remove.csv generate in /tmp\n");
     fclose(file);
     clear_circular_list(list);
@@ -716,7 +716,7 @@ void remove_array_stack_perfomance(char **argv) {
     sprintf(index_char, "%d", (int*) element);
     sprintf(time_char, "%f", time_spent);
     puts_data(file, "array_stack", "remove", index_char, time_char);
-    printf("File array-stack_perfomance_remove.csv generate in /tmp\n");
+    printf("File array_stack_perfomance_remove.csv generate in /tmp\n");
     fclose(file);
     clear_array_stack(stack);
 }
@@ -760,7 +760,7 @@ void remove_linked_stack_perfomance(char **argv) {
     sprintf(index_char, "%d", (int*) element);
     sprintf(time_char, "%f", time_spent);
     puts_data(file, "linked_stack", "remove", index_char, time_char);
-    printf("File linked-stack_perfomance_remove.csv generate in /tmp\n");
+    printf("File linked_stack_perfomance_remove.csv generate in /tmp\n");
     fclose(file);
     clear_linked_stack(stack);
 }
