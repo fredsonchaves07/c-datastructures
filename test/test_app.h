@@ -16,4 +16,6 @@ void run_test_linked_stack();
 
 void run_test_array_queue();
 
+void run_test_linked_queue();
+
 # endif
