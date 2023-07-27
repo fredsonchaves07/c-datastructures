@@ -1,5 +1,5 @@
 #include <string.h>
-# include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "../../include/algorithms/base_converter.h"

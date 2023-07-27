@@ -26,7 +26,8 @@ libed: \
 	$(OBJ)/linked_stack.o \
 	$(OBJ)/array_queue.o \
 	$(OBJ)/linked_queue.o \
-	$(OBJ)/base_converter.o
+	$(OBJ)/base_converter.o \
+	$(OBJ)/decimal_to_binary.o
 	ar -rcs $(LIB)/libed.a $(OBJ)/*.o
 
 myapps: clean_apps \

@@ -22,4 +22,6 @@ void run_test_linked_queue();
 //Run algorithms test
 void run_test_base_converter();
 
+void run_test_decimal_to_binary();
+
 # endif
