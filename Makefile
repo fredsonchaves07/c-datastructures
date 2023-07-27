@@ -6,6 +6,7 @@ OBJ = ./obj
 APP = ./apps
 LIB = ./lib
 DATASTRUCTURE_DIR = ./src/datastructures
+ALGORITHM_DIR = ./src/algorithms
 TEST_DIR = ./test
 TMP = ./tmp
 
@@ -24,7 +25,8 @@ libed: \
 	$(OBJ)/array_stack.o \
 	$(OBJ)/linked_stack.o \
 	$(OBJ)/array_queue.o \
-	$(OBJ)/linked_queue.o
+	$(OBJ)/linked_queue.o \
+	$(OBJ)/base_converter.o
 	ar -rcs $(LIB)/libed.a $(OBJ)/*.o
 
 myapps: clean_apps \
@@ -49,6 +51,9 @@ run_test:
 	$(BIN)/test_app.x
 
 $(OBJ)/%.o: $(DATASTRUCTURE_DIR)/*/%.c $(INCLUDE)/*/%.h
+	gcc $(FLAGS) -c $< -I $(INCLUDE) -o $@
+
+$(OBJ)/%.o: $(ALGORITHM_DIR)/%.c $(INCLUDE)/*/%.h
 	gcc $(FLAGS) -c $< -I $(INCLUDE) -o $@
 
 $(BIN)/%.x: $(APP)/%.c
