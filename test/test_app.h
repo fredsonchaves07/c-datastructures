@@ -24,4 +24,6 @@ void run_test_base_converter();
 
 void run_test_decimal_to_binary();
 
+void run_test_hot_potato();
+
 # endif

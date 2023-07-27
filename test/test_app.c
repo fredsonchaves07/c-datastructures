@@ -8,6 +8,7 @@
 # include "datastructures/queue/test_linked_queue.c"
 # include "algorithms/test_base_converter.c"
 # include "algorithms/test_decimal_to_binary.c"
+# include "algorithms/test_hot_potato.c"
 
 void setUp() {}
 
@@ -29,5 +30,6 @@ int main() {
     //Run algorithms test
     run_test_base_converter();
     run_test_decimal_to_binary();
+    run_test_hot_potato();
     return UNITY_END();
 }
