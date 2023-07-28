@@ -28,7 +28,8 @@ libed: \
 	$(OBJ)/linked_queue.o \
 	$(OBJ)/base_converter.o \
 	$(OBJ)/decimal_to_binary.o \
-	$(OBJ)/hot_potato.o
+	$(OBJ)/hot_potato.o \
+	$(OBJ)/palindrome.o
 	ar -rcs $(LIB)/libed.a $(OBJ)/*.o
 
 myapps: clean_apps \

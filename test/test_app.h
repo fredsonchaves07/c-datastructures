@@ -26,4 +26,6 @@ void run_test_decimal_to_binary();
 
 void run_test_hot_potato();
 
+void run_test_palindrome();
+
 # endif
